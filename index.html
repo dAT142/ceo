@@ -226,6 +226,9 @@ transform:translateY(0) scale(1);
 
 <div class="container">
 <div class="top">
+<div class="glass pill">
+    🚀 Official Profile • HotGenZ.Com
+</div>
 
 </div>
 
@@ -278,21 +281,6 @@ transform:translateY(0) scale(1);
 </div>
 
 <script>
-let views=+localStorage.getItem('views')||0;
-views++;
-localStorage.setItem('views',views);
-document.getElementById('views').innerText=views;
-
-let clicks=+localStorage.getItem('clicks')||0;
-document.getElementById('clicks').innerText=clicks;
-
-document.querySelectorAll('.track').forEach(el=>{
-el.addEventListener('click',()=>{
-clicks++;
-localStorage.setItem('clicks',clicks);
-document.getElementById('clicks').innerText=clicks;
-});
-});
 
 const themes = ["dark", "light", "cyber"];
 const names = {
