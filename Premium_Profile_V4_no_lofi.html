@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Premium Profile V4</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:'Baloo 2',sans-serif;
+}
+canvas{position:fixed;inset:0;z-index:-1}
+.bg{position:fixed;inset:0;background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop') center/cover;z-index:-3}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:-2}
+.container{max-width:1300px;margin:auto;padding:25px}
+.glass{background:rgba(15,20,40,.55);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);border-radius:24px}
+.top{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.pill{padding:14px 20px}
+.profile{text-align:center;padding-top:40px}
+.avatar-wrap{position:relative;display:inline-block}
+.avatar{width:180px;height:180px;border-radius:50%;border:4px solid rgba(255,255,255,.8);box-shadow:0 0 25px #5eead4,0 0 80px #60a5fa}
+.online{position:absolute;right:10px;bottom:10px;width:22px;height:22px;border-radius:50%;background:#00ff88;border:3px solid #fff}
+h1{
+    font-family:'Baloo 2',sans-serif;
+    font-size:58px;
+    font-weight:700;
+    letter-spacing:2px;
+    color:#3B82F6;
+    text-shadow:
+        0 2px 0 rgba(255,255,255,.8),
+        0 8px 20px rgba(59,130,246,.25);
+}
+
+h2,h3{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:600;
+}
+
+button,
+a,
+p,
+span{
+    font-family:'Baloo 2',sans-serif;
+}
+
+.badge{
+    padding:8px 16px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#38bdf8,#4f46e5);
+    font-size:13px;
+    font-weight:700;
+    box-shadow:0 0 18px rgba(56,189,248,.45);
+}
+.quote{
+    font-size:17px;
+    font-style:italic;
+    padding:12px 22px;
+    display:inline-block;
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    backdrop-filter:blur(12px);
+    margin-top:18px;
+}
+.theme,.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+button{
+    cursor:pointer;
+    border:none;
+    padding:13px 24px;
+    border-radius:999px;
+    font-size:15px;
+    font-weight:700;
+    transition:.35s;
+}
+button:hover{
+    transform:translateY(-4px) scale(1.05);
+    box-shadow:0 10px 30px rgba(94,234,212,.3);
+}
+.theme button,.actions button{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.1)}
+.socials,.bento{display:grid;gap:18px;margin-top:22px}
+.socials{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.social{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    padding:20px;
+    color:#fff;
+    text-decoration:none;
+    transition:.35s;
+    border-radius:22px;
+    font-size:17px;
+    font-weight:600;
+}
+
+.social:hover{
+    transform:translateY(-8px) scale(1.03);
+    box-shadow:0 15px 40px rgba(0,255,255,.18);
+}
+.bento{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{padding:20px}
+.card p{margin:8px 0}
+.qr img{width:170px;background:#fff;padding:8px;border-radius:10px}
+.light{background:#f4f4f4;color:#111}
+.light .glass,.light button{color:#111;background:rgba(255,255,255,.7)}
+.cyber{background:#020617;color:#00ffff}
+footer{text-align:center;padding:30px;opacity:.7}
+h1,h2,h3,h4,h5,h6{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:900;
+    letter-spacing:.3px;
+}
+
+p,
+span,
+a,
+button,
+input,
+textarea,
+label,
+li,
+small,
+div{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+}
+
+button{
+    border-radius:999px;
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:.3px;
+}
+
+.social{
+    font-size:18px;
+    font-weight:800;
+}
+
+.quote{
+    font-weight:700;
+}
+
+.card p{
+    font-size:16px;
+    font-weight:700;
+}
+
+footer{
+    font-weight:700;
+}
+.top-actions{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.top-actions button{
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.12);
+    padding:13px 24px;
+    border-radius:999px;
+    font-size:15px;
+    font-weight:700;
+    transition:.35s;
+}
+
+.top-actions button:hover{
+    transform:translateY(-4px) scale(1.05);
+    box-shadow:0 10px 30px rgba(94,234,212,.3);
+}
+#donateModal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(8px);
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+
+#donateCard{
+    position:relative;
+    max-width:520px;
+    width:92%;
+    background:#fff;
+    border-radius:22px;
+    padding:15px;
+    animation:zoom .25s;
+}
+
+#donateCard img{
+    width:100%;
+    border-radius:16px;
+}
+
+@keyframes zoom{
+
+0%{
+
+opacity:0;
+
+transform:translateY(20px) scale(.85);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:translateY(0) scale(1);
+
+}
+
+}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="overlay"></div>
+<canvas id="particles"></canvas>
+
+<div class="container">
+<div class="top">
+<div class="glass pill">👁️ <span id="views">0</span> Views | 🖱️ <span id="clicks">0</span> Clicks</div>
+
+</div>
+
+<div class="profile">
+<div class="avatar-wrap">
+<img class="avatar" src="https://sf-static.upanhlaylink.com/img/image_202607129f4b710599648c4a911be8f2b1e1a537.jpg">
+<div class="online"></div>
+</div>
+<h1>Nguyễn Đức Đạt <span></span></h1>
+<p>Developer • MMO • Content Creator</p>
+<p class="quote">"Code today, change tomorrow."</p>
+
+<div class="top-actions">
+    <button id="themeBtn" onclick="nextTheme()">
+        🌙 Dark Mode
+    </button>
+
+    <button onclick="copyProfile()">🔗 Copy Link</button>
+    <button onclick="window.open('https://hotgenz.com','_blank')"> ⭐ Follow</button>
+    <button onclick="openDonate()">💖 Donate</button>
+</div>
+</div>
+
+<h2>🌐 Social Links</h2>
+<div class="socials">
+<a class="glass social track" href="https://facebook.com" target="_blank">📘 Facebook Nơi Ảo</a>
+<a class="glass social track" href="https://www.hotgenz.com/2026/07/nguyen-uc-at-2007-chang-trai-tre-en-tu.html" target="_blank">📰 Tin tức về Đạt</a>
+<a class="glass social track" href="https://www.youtube.com/@nguyendat.22" target="_blank">▶️ Kênh YouTube</a>
+<a class="glass social track" href="https://locket.cam/datdepzai097" target="_blank">📷 Locket Bộ Mặt Thật</a>
+<a class="glass social track" href="https://zalo.me/0567866683" target="_blank">💬 Zalo Liên Hệ</a>
+</div>
+
+<div class="bento">
+<div class="glass card">
+<h3>👤 Thông tin cá nhân</h3>
+<p>🎂 22/09/2007</p><p>💼 Ceo : HotGenZ.Com</p>
+<p>📍 Hà Nội Gốc Hà Nam</p><p>📧 contact@hotgenz.com</p>
+</div>
+<div class="glass card">
+<h3>🎮 Sở thích</h3>
+<p>Code</p><p>Gaming</p><p>Du lịch</p><p>Âm nhạc</p>
+</div>
+<div class="glass card">
+<h3>🚀 Dự án</h3>
+<p>HotGenZ.Com</p><p>DNU.HotGenZ.Com</p><p>Telegram Bots</p>
+</div>
+<div class="glass card qr">
+<h3>🔗 QR Profile</h3>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com">
+</div>
+</div>
+
+<footer>Nguồn : HotGenZ.Com</footer>
+</div>
+
+<script>
+let views=+localStorage.getItem('views')||0;
+views++;
+localStorage.setItem('views',views);
+document.getElementById('views').innerText=views;
+
+let clicks=+localStorage.getItem('clicks')||0;
+document.getElementById('clicks').innerText=clicks;
+
+document.querySelectorAll('.track').forEach(el=>{
+el.addEventListener('click',()=>{
+clicks++;
+localStorage.setItem('clicks',clicks);
+document.getElementById('clicks').innerText=clicks;
+});
+});
+
+const themes = ["dark", "light", "cyber"];
+const names = {
+    dark: "🌙 Dark Mode",
+    light: "☀️ Light Mode",
+    cyber: "⚡ Cyberpunk"
+};
+
+let currentTheme = localStorage.getItem("theme") || "dark";
+
+function applyTheme(theme){
+    document.body.classList.remove("light","cyber");
+
+    if(theme==="light"){
+        document.body.classList.add("light");
+    }
+
+    if(theme==="cyber"){
+        document.body.classList.add("cyber");
+    }
+
+    currentTheme = theme;
+
+    document.getElementById("themeBtn").innerHTML = names[theme];
+
+    localStorage.setItem("theme",theme);
+}
+
+function nextTheme(){
+
+    let index = themes.indexOf(currentTheme);
+
+    index++;
+
+    if(index>=themes.length) index=0;
+
+    applyTheme(themes[index]);
+}
+
+applyTheme(currentTheme);
+
+function copyProfile(){
+navigator.clipboard.writeText(location.href);
+alert('Đã copy link profile');
+}
+
+async function shareProfile(){
+if(navigator.share){
+await navigator.share({title:document.title,url:location.href});
+}else{
+copyProfile();
+}
+}
+
+const c=document.getElementById('particles');
+const x=c.getContext('2d');
+function rs(){c.width=innerWidth;c.height=innerHeight}
+rs();addEventListener('resize',rs);
+const p=[...Array(90)].map(()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*3+1,v:Math.random()+0.3}));
+(function draw(){
+x.clearRect(0,0,c.width,c.height);
+p.forEach(a=>{
+x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);
+x.fillStyle='rgba(255,255,255,.6)';x.fill();
+a.y+=a.v;if(a.y>innerHeight)a.y=0;
+});
+requestAnimationFrame(draw);
+})();
+function openDonate(){
+    document.getElementById("donateModal").style.display="flex";
+}
+
+function closeDonate(){
+    document.getElementById("donateModal").style.display="none";
+}
+
+document.addEventListener("click",function(e){
+    const modal=document.getElementById("donateModal");
+    if(e.target===modal){
+        closeDonate();
+    }
+});
+</script>
+<div id="donateModal">
+    <div id="donateCard">
+        <button onclick="closeDonate()"
+            style="position:absolute;right:10px;top:10px;border:none;border-radius:50%;width:36px;height:36px;background:#ff3d6e;color:#fff;cursor:pointer;">
+            ✕
+        </button>
+
+        <img src="https://i.imgur.com/PKgZPUG.jpeg">
+
+        <h3 style="text-align:center">
+            Cảm ơn bạn đã ủng hộ ❤️
+        </h3>
+    </div>
+</div>
+</body>
+</html>
