@@ -1,382 +1,2113 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="h-full">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Premium Profile V4</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-    font-family:'Baloo 2',sans-serif;
-}
-canvas{position:fixed;inset:0;z-index:-1}
-.bg{position:fixed;inset:0;background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop') center/cover;z-index:-3}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:-2}
-.container{max-width:1300px;margin:auto;padding:25px}
-.glass{background:rgba(15,20,40,.55);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);border-radius:24px}
-.top{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.pill{padding:14px 20px}
-.profile{text-align:center;padding-top:40px}
-.avatar-wrap{position:relative;display:inline-block}
-.avatar{width:180px;height:180px;border-radius:50%;border:4px solid rgba(255,255,255,.8);box-shadow:0 0 25px #5eead4,0 0 80px #60a5fa}
-.online{position:absolute;right:10px;bottom:10px;width:22px;height:22px;border-radius:50%;background:#00ff88;border:3px solid #fff}
-h1{
-    font-family:'Baloo 2',sans-serif;
-    font-size:58px;
-    font-weight:700;
-    letter-spacing:2px;
-    color:#3B82F6;
-    text-shadow:
-        0 2px 0 rgba(255,255,255,.8),
-        0 8px 20px rgba(59,130,246,.25);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Hello Kitty 2FA Authenticator 🎀</title>
 
-h2,h3{
-    font-family:'Baloo 2',sans-serif;
-    font-weight:600;
-}
+  <!-- Google Fonts: Quicksand (Geometric Kawaii) & Nunito (Legible System) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 
-button,
-a,
-p,
-span{
-    font-family:'Baloo 2',sans-serif;
-}
+  <!-- FontAwesome 6 Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-.badge{
-    padding:8px 16px;
-    border-radius:999px;
-    background:linear-gradient(135deg,#38bdf8,#4f46e5);
-    font-size:13px;
-    font-weight:700;
-    box-shadow:0 0 18px rgba(56,189,248,.45);
-}
-.quote{
-    font-size:17px;
-    font-style:italic;
-    padding:12px 22px;
-    display:inline-block;
-    border-radius:999px;
-    background:rgba(255,255,255,.06);
-    backdrop-filter:blur(12px);
-    margin-top:18px;
-}
-.theme,.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}
-button{
-    cursor:pointer;
-    border:none;
-    padding:13px 24px;
-    border-radius:999px;
-    font-size:15px;
-    font-weight:700;
-    transition:.35s;
-}
-button:hover{
-    transform:translateY(-4px) scale(1.05);
-    box-shadow:0 10px 30px rgba(94,234,212,.3);
-}
-.theme button,.actions button{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.1)}
-.socials,.bento{display:grid;gap:18px;margin-top:22px}
-.socials{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-.social{
-    display:flex;
-    gap:14px;
-    align-items:center;
-    padding:20px;
-    color:#fff;
-    text-decoration:none;
-    transition:.35s;
-    border-radius:22px;
-    font-size:17px;
-    font-weight:600;
-}
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-.social:hover{
-    transform:translateY(-8px) scale(1.03);
-    box-shadow:0 15px 40px rgba(0,255,255,.18);
-}
-.bento{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.card{padding:20px}
-.card p{margin:8px 0}
-.qr img{width:170px;background:#fff;padding:8px;border-radius:10px}
-.light{background:#f4f4f4;color:#111}
-.light .glass,.light button{color:#111;background:rgba(255,255,255,.7)}
-.cyber{background:#020617;color:#00ffff}
-footer{text-align:center;padding:30px;opacity:.7}
-h1,h2,h3,h4,h5,h6{
-    font-family:'Baloo 2',sans-serif;
-    font-weight:900;
-    letter-spacing:.3px;
-}
+  <!-- HTML5 QR Code Scanner Library -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
-p,
-span,
-a,
-button,
-input,
-textarea,
-label,
-li,
-small,
-div{
-    font-family:'Baloo 2',sans-serif;
-    font-weight:700;
-}
+  <!-- QRCode.js Generator CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-button{
-    border-radius:999px;
-    font-size:16px;
-    font-weight:800;
-    letter-spacing:.3px;
-}
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
-.social{
-    font-size:18px;
-    font-weight:800;
-}
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            kitty: {
+              red: '#FF2A6D',
+              'red-dark': '#E01757',
+              pink: '#FF85A2',
+              'pink-light': '#FFE5EC',
+              'pink-blush': '#FFF0F5',
+              'pink-pastel': '#FFF7FA',
+              border: '#FFCCD9',
+              yellow: '#FFD152',
+              dark: '#3A2E35',
+              purple: '#9B51E0',
+              'purple-dark': '#4D1D75'
+            }
+          },
+          fontFamily: {
+            sans: ['Nunito', 'sans-serif'],
+            kawaii: ['Quicksand', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          boxShadow: {
+            'kitty-sm': '0 4px 12px rgba(255, 133, 162, 0.15)',
+            'kitty-card': '0 8px 24px -4px rgba(255, 75, 114, 0.12), 0 4px 12px -2px rgba(255, 133, 162, 0.08)',
+            'kitty-glow': '0 12px 32px -4px rgba(255, 42, 109, 0.35)',
+            'dock': '0 -8px 25px rgba(255, 133, 162, 0.18)'
+          }
+        }
+      }
+    }
+  </script>
 
-.quote{
-    font-weight:700;
-}
-
-.card p{
-    font-size:16px;
-    font-weight:700;
-}
-
-footer{
-    font-weight:700;
-}
-.top-actions{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:12px;
-    flex-wrap:wrap;
-    margin-top:20px;
-}
-
-.top-actions button{
-    background:rgba(255,255,255,.08);
-    color:#fff;
-    border:1px solid rgba(255,255,255,.12);
-    padding:13px 24px;
-    border-radius:999px;
-    font-size:15px;
-    font-weight:700;
-    transition:.35s;
-}
-
-.top-actions button:hover{
-    transform:translateY(-4px) scale(1.05);
-    box-shadow:0 10px 30px rgba(94,234,212,.3);
-}
-#donateModal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    backdrop-filter:blur(8px);
-    justify-content:center;
-    align-items:center;
-    z-index:99999;
-}
-
-#donateCard{
-    position:relative;
-    max-width:520px;
-    width:92%;
-    background:#fff;
-    border-radius:22px;
-    padding:15px;
-    animation:zoom .25s;
-}
-
-#donateCard img{
-    width:100%;
-    border-radius:16px;
-}
-
-@keyframes zoom{
-
-0%{
-
-opacity:0;
-
-transform:translateY(20px) scale(.85);
-
-}
-
-100%{
-
-opacity:1;
-
-transform:translateY(0) scale(1);
-
-}
-
-}
-</style>
+  <style>
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+    }
+    body {
+      background-color: #FFF2F6;
+      background-image: 
+        radial-gradient(#FFCCD9 1px, transparent 1px), 
+        radial-gradient(#FFE5EC 1px, #FFF2F6 1px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+      -webkit-tap-highlight-color: transparent;
+      padding-top: var(--sat);
+      padding-bottom: var(--sab);
+    }
+    .pb-safe-dock {
+      padding-bottom: calc(5rem + var(--sab));
+    }
+    @keyframes ribbonWiggle {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-8deg) scale(1.06); }
+      75% { transform: rotate(8deg) scale(1.06); }
+    }
+    .hover-wiggle:hover {
+      animation: ribbonWiggle 0.45s ease-in-out infinite;
+    }
+    .timer-ring-stroke {
+      transition: stroke-dashoffset 0.98s linear, stroke 0.3s ease;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #FF99B3;
+      border-radius: 999px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #FFEAF1;
+    }
+    /* Bottom-sheet animation for mobile */
+    @media (max-width: 640px) {
+      .modal-bottom-sheet {
+        align-items: flex-end !important;
+        padding: 0 !important;
+      }
+      .modal-bottom-sheet > div {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        max-height: 88vh;
+      }
+    }
+  </style>
 </head>
-<body>
-<div class="bg"></div>
-<div class="overlay"></div>
-<canvas id="particles"></canvas>
 
-<div class="container">
-<div class="top">
-<div class="glass pill">
-    🚀 Official Profile • HotGenZ.Com
-</div>
+<body class="h-full flex flex-col font-sans text-kitty-dark selection:bg-kitty-pink selection:text-white">
 
-</div>
+  <div id="authScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-kitty-pink-blush/80 backdrop-blur-md overflow-y-auto">
+    <div class="relative bg-white w-full max-w-sm sm:max-w-md rounded-3xl border-3 border-kitty-border shadow-2xl p-6 sm:p-8 text-center my-auto transition-all animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Custom SVG Hello Kitty Face with Signature Red Bow -->
+      <div class="relative w-20 h-20 mx-auto mb-3 hover-wiggle cursor-pointer" onclick="playSfx('chime')">
+        <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md">
+          <polygon points="18,36 12,12 36,22" fill="#FFFFFF" stroke="#3A2E35" stroke-width="4.5" stroke-linejoin="round" />
+          <polygon points="82,36 88,12 64,22" fill="#FFFFFF" stroke="#3A2E35" stroke-width="4.5" stroke-linejoin="round" />
+          <ellipse cx="50" cy="54" rx="44" ry="34" fill="#FFFFFF" stroke="#3A2E35" stroke-width="4.5" />
+          <ellipse cx="32" cy="54" rx="4.2" ry="5.8" fill="#3A2E35" />
+          <ellipse cx="68" cy="54" rx="4.2" ry="5.8" fill="#3A2E35" />
+          <circle cx="34" cy="52" r="1.5" fill="#FFFFFF" />
+          <circle cx="70" cy="52" r="1.5" fill="#FFFFFF" />
+          <ellipse cx="50" cy="62" rx="4.5" ry="3.2" fill="#FFD152" stroke="#3A2E35" stroke-width="2.5" />
+          <!-- Whiskers -->
+          <line x1="8" y1="48" x2="22" y2="51" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
+          <line x1="6" y1="58" x2="22" y2="58" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
+          <line x1="8" y1="68" x2="22" y2="65" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
+          <line x1="92" y1="48" x2="78" y2="51" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
+          <line x1="94" y1="58" x2="78" y2="58" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
+          <line x1="92" y1="68" x2="78" y2="65" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
+          <!-- Red Bow -->
+          <g transform="translate(18, 14) scale(0.65)">
+            <ellipse cx="14" cy="14" rx="13" ry="9" fill="#FF2A6D" stroke="#3A2E35" stroke-width="4" transform="rotate(-30 14 14)" />
+            <ellipse cx="38" cy="14" rx="13" ry="9" fill="#FF2A6D" stroke="#3A2E35" stroke-width="4" transform="rotate(30 38 14)" />
+            <circle cx="26" cy="14" r="7.5" fill="#E01757" stroke="#3A2E35" stroke-width="4" />
+            <circle cx="24" cy="12" r="2.2" fill="#FFA5BA" />
+          </g>
+        </svg>
+      </div>
 
-<div class="profile">
-<div class="avatar-wrap">
-<img class="avatar" src="https://sf-static.upanhlaylink.com/img/image_202607129f4b710599648c4a911be8f2b1e1a537.jpg">
-<div class="online"></div>
-</div>
-<h1>Nguyễn Đức Đạt <span></span></h1>
-<p>Developer • MMO • Content Creator</p>
-<p class="quote">"Code today, change tomorrow."</p>
+      <h1 class="text-xl sm:text-2xl font-black font-kawaii text-kitty-red tracking-tight">Hello Kitty 2FA</h1>
+      <p class="text-xs text-gray-500 font-bold mb-4">Kho mã bảo mật hai bước phong cách Sanrio 🎀</p>
 
-<div class="top-actions">
-    <button id="themeBtn" onclick="nextTheme()">
-        🌙 Dark Mode
-    </button>
+      <!-- Saved Profiles Quick Carousel -->
+      <div id="quickProfilesContainer" class="hidden text-left mb-4">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[11px] font-black uppercase text-gray-400">Chọn hồ sơ nhanh</span>
+          <span class="text-[10px] text-kitty-pink font-bold">Lưu trên thiết bị</span>
+        </div>
+        <div id="quickProfilesList" class="flex gap-2 overflow-x-auto pb-1.5 custom-scroll"></div>
+      </div>
 
-    <button onclick="copyProfile()">🔗 Copy Link</button>
-    <button onclick="window.open('https://hotgenz.com','_blank')"> ⭐ Follow</button>
-    <button onclick="openDonate()">💖 Donate</button>
-</div>
-</div>
+      <div class="flex border-b border-kitty-border mb-4">
+        <button id="authTabLogin" onclick="setAuthMode('login')" class="flex-1 py-2 text-xs font-black border-b-2 border-kitty-red text-kitty-red">Đăng Nhập</button>
+        <button id="authTabRegister" onclick="setAuthMode('register')" class="flex-1 py-2 text-xs font-bold border-b-2 border-transparent text-gray-400 hover:text-kitty-red">Tạo Mới</button>
+        <button id="authTabAdmin" onclick="setAuthMode('admin')" class="flex-1 py-2 text-xs font-bold border-b-2 border-transparent text-gray-400 hover:text-kitty-purple flex items-center justify-center gap-1">
+          <i class="fa-solid fa-crown text-[10px]"></i> Admin
+        </button>
+      </div>
 
-<h2>🌐 Social Links</h2>
-<div class="socials">
-<a class="glass social track" href="https://facebook.com" target="_blank">📘 Facebook Nơi Ảo</a>
-<a class="glass social track" href="https://www.hotgenz.com/2026/07/nguyen-uc-at-2007-chang-trai-tre-en-tu.html" target="_blank">📰 Tin tức về Đạt</a>
-<a class="glass social track" href="https://www.youtube.com/@nguyendat.22" target="_blank">▶️ Kênh YouTube</a>
-<a class="glass social track" href="https://locket.cam/datdepzai097" target="_blank">📷 Locket Bộ Mặt Thật</a>
-<a class="glass social track" href="https://zalo.me/0567866683" target="_blank">💬 Zalo Liên Hệ</a>
-</div>
+      <form id="authForm" onsubmit="handleAuthSubmit(event)" class="space-y-3 text-left">
+        <div>
+          <label class="block text-xs font-black text-kitty-dark mb-1">Tên hồ sơ / Biệt danh</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-kitty-pink text-xs">🎀</span>
+            <input 
+              type="text" 
+              id="authUsername" 
+              required 
+              placeholder="Kitty, MyMelody, Alex..." 
+              class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-4 py-2.5 text-xs sm:text-sm font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all"
+            >
+          </div>
+        </div>
 
-<div class="bento">
-<div class="glass card">
-<h3>👤 Thông tin cá nhân</h3>
-<p>🎂 22/09/2007</p><p>💼 Ceo : HotGenZ.Com</p>
-<p>📍 Hà Nội Gốc Hà Nam</p><p>📧 contact@hotgenz.com</p>
-</div>
-<div class="glass card">
-<h3>🎮 Sở thích</h3>
-<p>Code</p><p>Gaming</p><p>Du lịch</p><p>Âm nhạc</p>
-</div>
-<div class="glass card">
-<h3>🚀 Dự án</h3>
-<p>HotGenZ.Com</p><p>DNU.HotGenZ.Com</p><p>Telegram Bots</p>
-</div>
-</div>
+        <div>
+          <label class="block text-xs font-black text-kitty-dark mb-1">Mã PIN bảo vệ (tối thiểu 4 số)</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-kitty-pink text-xs"><i class="fa-solid fa-key"></i></span>
+            <input 
+              type="password" 
+              id="authPin" 
+              required 
+              placeholder="••••" 
+              maxlength="20"
+              class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-10 py-2.5 text-xs sm:text-sm font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all font-mono"
+            >
+            <button type="button" onclick="togglePinVisibility('authPin', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-kitty-red text-xs p-1">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
 
-<footer>Nguồn : HotGenZ.Com</footer>
-</div>
+        <div id="adminNoticeBox" class="hidden p-2.5 bg-purple-50 rounded-2xl border border-purple-200 text-[11px] text-purple-700 font-bold">
+          <i class="fa-solid fa-shield-halved mr-1"></i> Admin mặc định: <span class="font-extrabold">admin</span> • PIN: <span class="font-extrabold">8888</span>
+        </div>
 
-<script>
+        <div id="authErrorMsg" class="text-xs font-bold text-kitty-red text-center min-h-[1.2rem]"></div>
 
-const themes = ["dark", "light", "cyber"];
-const names = {
-    dark: "🌙 Dark Mode",
-    light: "☀️ Light Mode",
-    cyber: "⚡ Cyberpunk"
-};
+        <button 
+          type="submit" 
+          id="authSubmitBtn" 
+          class="w-full py-3 bg-gradient-to-r from-kitty-red to-pink-500 hover:from-kitty-red-dark hover:to-pink-600 text-white font-black text-sm rounded-2xl shadow-kitty-glow active:scale-95 transition-all flex items-center justify-center gap-2 min-h-[44px]"
+        >
+          <i class="fa-solid fa-heart"></i>
+          <span id="authSubmitLabel">Đăng Nhập</span>
+        </button>
+      </form>
+    </div>
+  </div>
 
-let currentTheme = localStorage.getItem("theme") || "dark";
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b-2 border-kitty-border shadow-xs">
+    <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between gap-3">
+      
+      <!-- Brand & Mascot -->
+      <div class="flex items-center space-x-2.5 cursor-pointer select-none" onclick="playSfx('chime')">
+        <div class="relative w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0 bg-white border-2 border-kitty-red/40 rounded-full shadow-inner flex items-center justify-center hover-wiggle">
+          <span class="text-2xl">🎀</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-black text-base sm:text-xl font-kawaii text-kitty-red tracking-tight">Hello Kitty</span>
+            <span id="roleBadge" class="bg-kitty-pink-light text-kitty-red font-black text-[10px] sm:text-xs px-2 py-0.5 rounded-full border border-kitty-pink/40 shadow-xs">2FA</span>
+          </div>
+          <p id="roleSubtext" class="text-[10px] sm:text-xs text-gray-500 font-bold hidden xs:block">Kho mã an toàn & bảo mật</p>
+        </div>
+      </div>
 
-function applyTheme(theme){
-    document.body.classList.remove("light","cyber");
+      <!-- Controls & Active Profile Area -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2.5">
+        
+        <!-- Active User Pill with Quick Logout -->
+        <div id="currentUserPill" class="flex items-center bg-kitty-pink-blush border border-kitty-border rounded-2xl px-2.5 sm:px-3 py-1.5 shadow-xs">
+          <span id="userIconSpan" class="text-sm mr-1.5">🌸</span>
+          <span id="activeUsername" class="text-xs font-black text-kitty-dark max-w-[80px] sm:max-w-[130px] truncate mr-2">Khách</span>
+          <button 
+            onclick="logout()" 
+            class="text-[11px] font-black text-kitty-red hover:text-kitty-red-dark flex items-center gap-1 min-h-[30px] px-1 active:scale-95" 
+            title="Đổi hồ sơ / Đăng xuất"
+          >
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span class="hidden sm:inline">Đổi</span>
+          </button>
+        </div>
 
-    if(theme==="light"){
-        document.body.classList.add("light");
-    }
-
-    if(theme==="cyber"){
-        document.body.classList.add("cyber");
-    }
-
-    currentTheme = theme;
-
-    document.getElementById("themeBtn").innerHTML = names[theme];
-
-    localStorage.setItem("theme",theme);
-}
-
-function nextTheme(){
-
-    let index = themes.indexOf(currentTheme);
-
-    index++;
-
-    if(index>=themes.length) index=0;
-
-    applyTheme(themes[index]);
-}
-
-applyTheme(currentTheme);
-
-function copyProfile(){
-navigator.clipboard.writeText(location.href);
-alert('Đã copy link profile');
-}
-
-async function shareProfile(){
-if(navigator.share){
-await navigator.share({title:document.title,url:location.href});
-}else{
-copyProfile();
-}
-}
-
-const c=document.getElementById('particles');
-const x=c.getContext('2d');
-function rs(){c.width=innerWidth;c.height=innerHeight}
-rs();addEventListener('resize',rs);
-const p=[...Array(90)].map(()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*3+1,v:Math.random()+0.3}));
-(function draw(){
-x.clearRect(0,0,c.width,c.height);
-p.forEach(a=>{
-x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);
-x.fillStyle='rgba(255,255,255,.6)';x.fill();
-a.y+=a.v;if(a.y>innerHeight)a.y=0;
-});
-requestAnimationFrame(draw);
-})();
-function openDonate(){
-    document.getElementById("donateModal").style.display="flex";
-}
-
-function closeDonate(){
-    document.getElementById("donateModal").style.display="none";
-}
-
-document.addEventListener("click",function(e){
-    const modal=document.getElementById("donateModal");
-    if(e.target===modal){
-        closeDonate();
-    }
-});
-</script>
-<div id="donateModal">
-    <div id="donateCard">
-        <button onclick="closeDonate()"
-            style="position:absolute;right:10px;top:10px;border:none;border-radius:50%;width:36px;height:36px;background:#ff3d6e;color:#fff;cursor:pointer;">
-            ✕
+        <!-- Sound FX Toggle Button -->
+        <button 
+          id="soundBtn" 
+          onclick="toggleSound()" 
+          class="w-10 h-10 min-w-[40px] flex items-center justify-center rounded-2xl bg-white text-kitty-red border border-kitty-border hover:bg-kitty-pink-blush transition-all shadow-xs active:scale-95"
+          title="Bật/Tắt âm thanh"
+        >
+          <i id="soundIcon" class="fa-solid fa-volume-high text-sm"></i>
         </button>
 
-        <img src="https://i.imgur.com/PKgZPUG.jpeg">
-
-        <h3 style="text-align:center">
-            Cảm ơn bạn đã ủng hộ ❤️
-        </h3>
+        <!-- Desktop Quick Actions -->
+        <div id="desktopActions" class="hidden md:flex items-center space-x-2">
+          <button 
+            onclick="openBackupModal()" 
+            class="px-3.5 py-2.5 rounded-2xl bg-white hover:bg-pink-50 text-kitty-dark border-2 border-kitty-border text-xs font-black transition-all shadow-xs flex items-center gap-1.5 active:scale-95"
+          >
+            <i class="fa-solid fa-cloud-arrow-up text-kitty-pink"></i>
+            <span>Sao lưu</span>
+          </button>
+          
+          <button 
+            onclick="openAddModal('manual')" 
+            class="bg-gradient-to-r from-kitty-red to-pink-500 hover:from-kitty-red-dark hover:to-pink-600 text-white font-black text-xs sm:text-sm px-4 py-2.5 rounded-2xl shadow-kitty-glow flex items-center gap-2 active:scale-95 transition-all"
+          >
+            <i class="fa-solid fa-plus"></i>
+            <span>Thêm mã mới</span>
+          </button>
+        </div>
+      </div>
     </div>
-</div>
+  </header>
+
+  <main id="clientView" class="flex-grow max-w-6xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-6 space-y-4 pb-safe-dock md:pb-8">
+    
+    <!-- Realtime TOTP Sync & Status Card -->
+    <div class="bg-white/95 backdrop-blur-md rounded-3xl p-4 sm:p-5 border-2 border-kitty-border shadow-kitty-card flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3.5 w-full sm:w-auto">
+        
+        <!-- Live Countdown SVG Ring -->
+        <div class="relative w-12 h-12 flex-shrink-0 flex items-center justify-center">
+          <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="19" stroke="#FFE5EC" stroke-width="4.5" fill="none" />
+            <circle 
+              id="totpProgressRing" 
+              class="timer-ring-stroke" 
+              cx="24" 
+              cy="24" 
+              r="19" 
+              stroke="#FF2A6D" 
+              stroke-width="4.5" 
+              fill="none" 
+              stroke-linecap="round" 
+              stroke-dasharray="119.38" 
+              stroke-dashoffset="0" 
+            />
+          </svg>
+          <span id="totpRemainSec" class="absolute font-black text-sm text-kitty-red font-mono">30</span>
+        </div>
+
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-black text-sm sm:text-base font-kawaii text-kitty-dark">Mã TOTP Thời Gian Thực</h2>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-700">
+              <span class="w-1.5 h-1.5 mr-1 rounded-full bg-emerald-500 animate-pulse"></span>
+              Chu kỳ 30s
+            </span>
+          </div>
+          <p id="liveClock" class="text-xs text-gray-500 font-semibold font-mono">Đồng hồ hệ thống: --:--:--</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
+        <button 
+          onclick="addSampleToken()" 
+          class="text-xs font-black text-kitty-red bg-kitty-pink-blush hover:bg-kitty-pink-light border border-kitty-border px-3.5 py-2.5 rounded-2xl transition-all flex items-center gap-1.5 active:scale-95 shadow-xs min-h-[40px]"
+          title="Tạo mã thử nghiệm"
+        >
+          <i class="fa-solid fa-wand-magic-sparkles text-kitty-yellow"></i>
+          <span>Thêm mẫu thử</span>
+        </button>
+
+        <span id="tokenCountBadge" class="text-xs font-black bg-kitty-pink-light text-kitty-red px-3.5 py-2.5 rounded-2xl min-h-[40px] flex items-center shadow-xs">
+          0 tài khoản 🎀
+        </span>
+      </div>
+    </div>
+
+    <!-- Search Toolbar & Keyboard Shortcut Prompt -->
+    <div class="flex items-center gap-2.5">
+      <div class="relative flex-grow">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-kitty-pink text-sm"></i>
+        <input 
+          id="tokenSearchInput" 
+          type="text" 
+          placeholder="Tìm dịch vụ hoặc tên tài khoản... (Ctrl + K)" 
+          oninput="renderTokenCards()" 
+          class="w-full bg-white/95 rounded-2xl pl-11 pr-10 py-3 text-xs sm:text-sm font-bold text-kitty-dark border-2 border-kitty-border focus:border-kitty-red focus:outline-none shadow-xs transition-all min-h-[44px]"
+        >
+        <button 
+          id="clearSearchBtn" 
+          onclick="clearSearch()" 
+          class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-kitty-red text-xs"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Quick Scan Button (Tablet/Desktop) -->
+      <button 
+        onclick="openAddModal('qr')" 
+        class="hidden sm:flex bg-white hover:bg-pink-50 text-kitty-red border-2 border-kitty-border font-black px-4 py-3 rounded-2xl shadow-xs transition-all items-center justify-center gap-2 text-xs sm:text-sm flex-shrink-0 active:scale-95 min-h-[44px]"
+      >
+        <i class="fa-solid fa-qrcode text-base"></i>
+        <span>Quét mã QR</span>
+      </button>
+    </div>
+
+    <!-- 2FA Token Cards Responsive Grid (1 col mobile, 2 col tablet, 3 col desktop) -->
+    <div id="tokensGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4"></div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden flex-col items-center justify-center p-8 sm:p-14 bg-white/90 rounded-3xl border-2 border-dashed border-kitty-border text-center shadow-inner my-6">
+      <div class="w-20 h-20 bg-kitty-pink-blush rounded-full flex items-center justify-center text-4xl mb-3 shadow-inner hover-wiggle">🎀</div>
+      <h3 class="text-base sm:text-lg font-black font-kawaii text-kitty-dark mb-1">Chưa có mã xác thực nào!</h3>
+      <p class="text-xs sm:text-sm text-gray-500 max-w-sm mb-5 font-semibold">
+        Bắt đầu bảo vệ tài khoản bằng cách quét mã QR hoặc nhập khóa thủ công.
+      </p>
+      <div class="flex flex-wrap gap-2.5 justify-center">
+        <button 
+          onclick="openAddModal('qr')" 
+          class="bg-kitty-red hover:bg-kitty-red-dark text-white text-xs sm:text-sm font-black px-5 py-2.5 rounded-2xl shadow-kitty-glow transition-all flex items-center gap-2 min-h-[44px] active:scale-95"
+        >
+          <i class="fa-solid fa-camera"></i> Quét mã QR
+        </button>
+        <button 
+          onclick="addSampleToken()" 
+          class="bg-kitty-pink-light hover:bg-pink-200 text-kitty-red text-xs sm:text-sm font-black px-4 py-2.5 rounded-2xl transition-all flex items-center gap-2 min-h-[44px] active:scale-95"
+        >
+          <i class="fa-solid fa-wand-magic-sparkles text-kitty-yellow"></i> Thêm mẫu thử
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <main id="adminView" class="hidden flex-grow max-w-6xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6 pb-20 md:pb-8">
+    
+    <!-- Admin Hero Banner -->
+    <div class="bg-gradient-to-r from-kitty-purple-dark via-purple-900 to-kitty-dark text-white rounded-3xl p-5 sm:p-7 shadow-kitty-glow border-2 border-purple-400 relative overflow-hidden">
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-kitty-yellow text-purple-950 flex items-center gap-1">
+              <i class="fa-solid fa-crown text-[10px]"></i> QUẢN TRỊ VIÊN
+            </span>
+            <span class="text-xs text-purple-200 font-bold">Hệ thống Hello Kitty 2FA</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black font-kawaii tracking-tight">Bảng Điều Khiển Quản Lý Hồ Sơ</h2>
+          <p class="text-xs text-purple-200 font-medium max-w-xl mt-1 leading-relaxed">
+            Xem số lượng tài khoản, khóa hoặc mở khóa quyền truy cập, đặt lại mã PIN.
+            <span class="text-pink-300 font-bold">Kiến trúc Zero-Knowledge: Khóa bí mật và mã TOTP của người dùng được mã hóa riêng trên máy và không thể xem bởi tài khoản quản trị.</span>
+          </p>
+        </div>
+
+        <button 
+          onclick="openCreateUserModal()" 
+          class="bg-kitty-pink hover:bg-kitty-red text-white text-xs sm:text-sm font-black px-4 py-3 rounded-2xl shadow-kitty-glow transition-all flex items-center justify-center gap-2 active:scale-95 self-start md:self-center"
+        >
+          <i class="fa-solid fa-user-plus"></i> Thêm người dùng mới
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin Metric Cards (Fully responsive 2 col to 4 col) -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-white rounded-3xl p-4 sm:p-5 border-2 border-kitty-border shadow-kitty-card flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-pink-100 text-kitty-red flex items-center justify-center text-xl flex-shrink-0">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <div>
+          <p class="text-[11px] font-bold text-gray-500 uppercase">Khách hàng</p>
+          <h4 id="statTotalUsers" class="text-xl sm:text-2xl font-black text-kitty-dark font-mono">0</h4>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-4 sm:p-5 border-2 border-kitty-border shadow-kitty-card flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl flex-shrink-0">
+          <i class="fa-solid fa-key"></i>
+        </div>
+        <div>
+          <p class="text-[11px] font-bold text-gray-500 uppercase">Tổng mã 2FA</p>
+          <h4 id="statTotalTokens" class="text-xl sm:text-2xl font-black text-kitty-dark font-mono">0</h4>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-4 sm:p-5 border-2 border-kitty-border shadow-kitty-card flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl flex-shrink-0">
+          <i class="fa-solid fa-user-check"></i>
+        </div>
+        <div>
+          <p class="text-[11px] font-bold text-gray-500 uppercase">Hoạt động</p>
+          <h4 id="statActiveUsers" class="text-xl sm:text-2xl font-black text-kitty-dark font-mono">0</h4>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-4 sm:p-5 border-2 border-kitty-border shadow-kitty-card flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl flex-shrink-0">
+          <i class="fa-solid fa-user-lock"></i>
+        </div>
+        <div>
+          <p class="text-[11px] font-bold text-gray-500 uppercase">Bị khóa</p>
+          <h4 id="statLockedUsers" class="text-xl sm:text-2xl font-black text-kitty-dark font-mono">0</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Directory: Table on Desktop, Cards on Mobile -->
+    <div class="bg-white rounded-3xl border-2 border-kitty-border shadow-kitty-card p-4 sm:p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h3 class="font-black font-kawaii text-base text-kitty-dark flex items-center gap-2">
+            <span>Danh Sách Người Dùng</span>
+            <span id="adminProfilesCount" class="text-xs bg-kitty-pink-light text-kitty-red px-2.5 py-0.5 rounded-full font-bold">0 hồ sơ</span>
+          </h3>
+          <p class="text-xs text-gray-500 font-bold">Quản lý kích hoạt, đặt lại mã PIN và xóa tài khoản</p>
+        </div>
+
+        <div class="relative w-full sm:w-64">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-kitty-pink text-xs"></i>
+          <input 
+            type="text" 
+            id="adminSearchUser" 
+            oninput="renderAdminUserList()" 
+            placeholder="Tìm theo tên..." 
+            class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-3 py-2 text-xs font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:outline-none"
+          >
+        </div>
+      </div>
+
+      <!-- Desktop Table -->
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-kitty-border text-gray-400 font-black uppercase tracking-wider">
+              <th class="py-3 px-3">Tài khoản</th>
+              <th class="py-3 px-3">Ngày tạo</th>
+              <th class="py-3 px-3 text-center">Số mã 2FA</th>
+              <th class="py-3 px-3 text-center">Trạng thái</th>
+              <th class="py-3 px-3 text-right">Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody" class="divide-y divide-kitty-border/60 font-bold text-kitty-dark"></tbody>
+        </table>
+      </div>
+
+      <!-- Mobile List Cards -->
+      <div id="adminMobileList" class="md:hidden space-y-3"></div>
+    </div>
+  </main>
+
+  <nav id="mobileDock" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t-2 border-kitty-border shadow-dock px-3 pt-1.5 pb-2">
+    <div class="max-w-md mx-auto flex items-center justify-around">
+      <button 
+        onclick="scrollToTop()" 
+        class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] text-kitty-red font-black text-[11px] active:scale-90 transition-transform"
+      >
+        <i class="fa-solid fa-shield-cat text-lg mb-0.5"></i>
+        <span>Mã 2FA</span>
+      </button>
+
+      <!-- Center Big Floating QR Button -->
+      <div class="relative -top-5">
+        <button 
+          onclick="openAddModal('qr')" 
+          class="w-14 h-14 rounded-full bg-gradient-to-tr from-kitty-red to-pink-500 text-white flex items-center justify-center shadow-kitty-glow border-3 border-white active:scale-90 transition-transform"
+          aria-label="Quét mã QR"
+        >
+          <i class="fa-solid fa-qrcode text-xl"></i>
+        </button>
+      </div>
+
+      <button 
+        onclick="openAddModal('manual')" 
+        class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] text-gray-500 hover:text-kitty-red font-black text-[11px] active:scale-90 transition-transform"
+      >
+        <i class="fa-solid fa-keyboard text-lg mb-0.5"></i>
+        <span>Thêm</span>
+      </button>
+
+      <button 
+        onclick="openBackupModal()" 
+        class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] text-gray-500 hover:text-kitty-red font-black text-[11px] active:scale-90 transition-transform"
+      >
+        <i class="fa-solid fa-cloud-arrow-up text-lg mb-0.5"></i>
+        <span>Sao lưu</span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="addModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm modal-bottom-sheet">
+    <div class="relative bg-white w-full max-w-lg rounded-3xl border-3 border-kitty-border shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-kitty-pink-light via-pink-100 to-kitty-pink-blush px-5 py-3.5 border-b border-kitty-border flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🎀</span>
+          <h3 id="addModalTitle" class="font-black font-kawaii text-sm sm:text-base text-kitty-red">Thêm mã xác thực mới</h3>
+        </div>
+        <button onclick="closeAddModal()" class="w-9 h-9 rounded-full bg-white/80 hover:bg-white text-gray-400 hover:text-kitty-red flex items-center justify-center transition-all shadow-xs min-h-[36px] min-w-[36px]">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Mode Tabs (Manual vs QR) -->
+      <div class="flex border-b border-kitty-border bg-kitty-pink-pastel px-4 pt-2 gap-2">
+        <button id="tabManualBtn" onclick="switchAddTab('manual')" class="flex-1 py-2.5 text-xs font-black rounded-t-2xl transition-all border-b-2 border-kitty-red text-kitty-red bg-white min-h-[44px]">
+          <i class="fa-solid fa-keyboard mr-1.5"></i> Nhập khóa thủ công
+        </button>
+        <button id="tabQrBtn" onclick="switchAddTab('qr')" class="flex-1 py-2.5 text-xs font-bold rounded-t-2xl transition-all border-b-2 border-transparent text-gray-500 hover:text-kitty-red min-h-[44px]">
+          <i class="fa-solid fa-camera mr-1.5"></i> Quét mã QR
+        </button>
+      </div>
+
+      <div class="p-4 sm:p-6 max-h-[75vh] overflow-y-auto custom-scroll">
+        <!-- Manual Tab Content -->
+        <div id="tabManualContent">
+          <form id="tokenForm" onsubmit="handleTokenSubmit(event)" class="space-y-3.5">
+            <input type="hidden" id="editTokenId" value="">
+
+            <div>
+              <label class="block text-xs font-black text-kitty-dark mb-1">Dịch vụ xác thực <span class="text-kitty-red">*</span></label>
+              <div class="relative">
+                <input 
+                  type="text" 
+                  id="inputIssuer" 
+                  required 
+                  placeholder="Google, Discord, Facebook, Roblox, Github..." 
+                  class="w-full bg-pink-50/50 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all min-h-[44px]"
+                >
+                <div class="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <button type="button" onclick="setPresetService('Google')" class="text-[10px] bg-white border border-pink-200 px-2 py-1 rounded-xl text-gray-600 hover:border-kitty-red font-bold">Google</button>
+                  <button type="button" onclick="setPresetService('Discord')" class="text-[10px] bg-white border border-pink-200 px-2 py-1 rounded-xl text-gray-600 hover:border-kitty-red font-bold">Discord</button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-black text-kitty-dark mb-1">Tên tài khoản / Email <span class="text-kitty-red">*</span></label>
+              <input 
+                type="text" 
+                id="inputAccountLabel" 
+                required 
+                placeholder="kitty@sanrio.jp" 
+                class="w-full bg-pink-50/50 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all min-h-[44px]"
+              >
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="block text-xs font-black text-kitty-dark">Khóa bí mật (Secret Key) <span class="text-kitty-red">*</span></label>
+                <button type="button" onclick="pasteSecretKey()" class="text-[11px] font-black text-kitty-red hover:underline flex items-center gap-1 min-h-[30px]">
+                  <i class="fa-regular fa-paste"></i> Dán từ Clipboard
+                </button>
+              </div>
+              <input 
+                type="text" 
+                id="inputSecretKey" 
+                required 
+                placeholder="Ví dụ: JBSWY3DPEHPK3PXP" 
+                oninput="cleanSecretKeyInput(this)"
+                class="w-full bg-pink-50/50 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all min-h-[44px]"
+              >
+            </div>
+
+            <div class="pt-2 flex gap-2">
+              <button type="button" onclick="closeAddModal()" class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 text-xs sm:text-sm font-black rounded-2xl transition-all min-h-[44px]">Hủy</button>
+              <button type="submit" class="flex-1 py-3 bg-gradient-to-r from-kitty-red to-pink-500 hover:from-kitty-red-dark hover:to-pink-600 text-white text-xs sm:text-sm font-black rounded-2xl shadow-kitty-glow transition-all flex items-center justify-center gap-1.5 min-h-[44px]">
+                <i class="fa-solid fa-heart"></i>
+                <span id="saveBtnLabel">Lưu mã 2FA</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- QR Scanner Tab Content -->
+        <div id="tabQrContent" class="hidden space-y-3.5">
+          <p class="text-xs text-center font-bold text-gray-600">Quét trực tiếp qua Camera hoặc chọn ảnh chụp mã QR từ máy</p>
+          
+          <div class="relative w-full rounded-2xl overflow-hidden border-2 border-kitty-border bg-black aspect-square max-w-[280px] mx-auto flex items-center justify-center shadow-inner">
+            <div id="cameraViewport" class="w-full h-full"></div>
+            <!-- Sanrio Bow Viewfinder Overlay -->
+            <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div class="w-48 h-48 border-2 border-kitty-red border-dashed rounded-3xl relative animate-pulse flex items-center justify-center">
+                <span class="absolute -top-3.5 text-2xl">🎀</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <button id="toggleCameraBtn" onclick="toggleCameraScanner()" class="w-full py-3 bg-kitty-red text-white text-xs sm:text-sm font-black rounded-2xl shadow-kitty-glow hover:bg-kitty-red-dark transition-all flex items-center justify-center gap-2 min-h-[44px]">
+              <i class="fa-solid fa-camera"></i>
+              <span id="cameraBtnText">Mở máy ảnh</span>
+            </button>
+            
+            <input type="file" id="qrFileInput" accept="image/*" onchange="handleQrImageUpload(event)" class="hidden">
+            <button type="button" onclick="document.getElementById('qrFileInput').click()" class="w-full py-3 bg-kitty-pink-blush text-kitty-red border-2 border-kitty-border text-xs sm:text-sm font-black rounded-2xl hover:bg-kitty-pink-light transition-all flex items-center justify-center gap-2 min-h-[44px]">
+              <i class="fa-solid fa-image"></i>
+              <span>Tải ảnh chụp mã QR từ thiết bị</span>
+            </button>
+          </div>
+          <div id="scanStatusMsg" class="text-center text-xs font-bold text-kitty-red min-h-[1.5rem]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="viewSecretModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
+    <div class="relative bg-white w-full max-w-sm rounded-3xl border-3 border-kitty-border shadow-2xl p-5 text-center animate-in fade-in zoom-in-95 duration-200">
+      <div class="w-12 h-12 bg-kitty-pink-light rounded-full flex items-center justify-center mx-auto text-2xl mb-2 hover-wiggle">🎀</div>
+      <h3 id="viewIssuerTitle" class="font-black font-kawaii text-base text-kitty-dark">Dịch Vụ</h3>
+      <p id="viewAccountSubtitle" class="text-xs text-gray-500 mb-3.5 font-bold">user@example.com</p>
+
+      <div class="p-3 bg-white border-2 border-kitty-border rounded-2xl shadow-inner inline-block mb-3.5">
+        <div id="reconstructedQrTarget" class="flex items-center justify-center"></div>
+      </div>
+
+      <div class="bg-kitty-pink-blush p-3 rounded-2xl border border-kitty-border text-left mb-4">
+        <span class="text-[10px] font-black text-kitty-red uppercase tracking-wider block mb-1">Khóa bí mật (Base32)</span>
+        <div class="flex items-center justify-between">
+          <code id="viewSecretRaw" class="text-xs font-mono font-bold text-kitty-dark break-all mr-2 select-all"></code>
+          <button onclick="copyViewSecret()" class="text-xs text-kitty-red hover:text-kitty-red-dark p-2 rounded-xl bg-white border border-kitty-border min-h-[36px] min-w-[36px] flex items-center justify-center">
+            <i class="fa-regular fa-copy"></i>
+          </button>
+        </div>
+      </div>
+
+      <button onclick="closeViewSecretModal()" class="w-full py-3 bg-kitty-pink hover:bg-kitty-red text-white font-black text-xs sm:text-sm rounded-2xl shadow-kitty-glow transition-all min-h-[44px]">Đóng</button>
+    </div>
+  </div>
+
+  <!-- Backup Modal -->
+  <div id="backupModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm modal-bottom-sheet">
+    <div class="relative bg-white w-full max-w-md rounded-3xl border-3 border-kitty-border shadow-2xl p-5 sm:p-6 animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between border-b border-kitty-border pb-3 mb-4">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🌸</span>
+          <h3 class="font-black font-kawaii text-base text-kitty-red">Sao lưu & Khôi phục</h3>
+        </div>
+        <button onclick="closeBackupModal()" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-kitty-red">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div class="p-4 bg-kitty-pink-blush rounded-2xl border border-kitty-border">
+          <h4 class="text-xs font-black text-kitty-dark flex items-center gap-1.5 mb-1">
+            <i class="fa-solid fa-download text-kitty-red"></i> Xuất bản sao lưu JSON
+          </h4>
+          <p class="text-[11px] text-gray-600 mb-3 font-bold">Lưu toàn bộ mã 2FA của hồ sơ này vào tệp tin JSON để nhập sang điện thoại hoặc máy khác.</p>
+          <button onclick="exportVaultJson()" class="w-full py-2.5 bg-white hover:bg-pink-100 text-kitty-red border border-kitty-border text-xs font-black rounded-xl transition-all shadow-xs flex items-center justify-center gap-2 min-h-[40px]">
+            <i class="fa-solid fa-file-export"></i> Tải về tệp tin sao lưu
+          </button>
+        </div>
+
+        <div class="p-4 bg-white rounded-2xl border border-kitty-border">
+          <h4 class="text-xs font-black text-kitty-dark flex items-center gap-1.5 mb-1">
+            <i class="fa-solid fa-upload text-kitty-pink"></i> Khôi phục từ tệp tin JSON
+          </h4>
+          <p class="text-[11px] text-gray-600 mb-3 font-bold">Nạp lại danh sách mã xác thực từ tệp sao lưu đã tải trước đó.</p>
+          <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="handleImportVaultJson(event)">
+          <button onclick="document.getElementById('importFileInput').click()" class="w-full py-2.5 bg-kitty-red hover:bg-kitty-red-dark text-white text-xs font-black rounded-xl transition-all shadow-kitty-glow flex items-center justify-center gap-2 min-h-[40px]">
+            <i class="fa-solid fa-file-import"></i> Chọn tệp tin để khôi phục
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin: Create User Modal -->
+  <div id="createUserModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
+    <div class="relative bg-white w-full max-w-sm rounded-3xl border-3 border-kitty-border shadow-2xl p-5 sm:p-6 animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between border-b border-kitty-border pb-3 mb-4">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">👑</span>
+          <h3 class="font-black font-kawaii text-sm sm:text-base text-kitty-purple">Thêm Khách Hàng Mới</h3>
+        </div>
+        <button onclick="closeCreateUserModal()" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-kitty-red">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleAdminCreateUser(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-black text-kitty-dark mb-1">Tên khách hàng</label>
+          <input 
+            type="text" 
+            id="adminNewUserName" 
+            required 
+            placeholder="Kuromi, Cinnamoroll..." 
+            class="w-full bg-pink-50/50 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none"
+          >
+        </div>
+        <div>
+          <label class="block text-xs font-black text-kitty-dark mb-1">Mã PIN khởi tạo</label>
+          <input 
+            type="password" 
+            id="adminNewUserPin" 
+            required 
+            placeholder="1234" 
+            maxlength="20"
+            class="w-full bg-pink-50/50 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none font-mono"
+          >
+        </div>
+
+        <div class="pt-2 flex gap-2">
+          <button type="button" onclick="closeCreateUserModal()" class="flex-1 py-2.5 bg-gray-100 text-gray-600 text-xs font-black rounded-xl">Hủy</button>
+          <button type="submit" class="flex-1 py-2.5 bg-kitty-purple hover:bg-kitty-purple-dark text-white text-xs font-black rounded-xl shadow-kitty-glow">Tạo tài khoản</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Custom Kawaii Confirm Dialog (Zero alert/confirm) -->
+  <div id="confirmModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
+    <div class="relative bg-white w-full max-w-xs rounded-3xl border-3 border-kitty-border shadow-2xl p-5 text-center animate-in fade-in zoom-in-95 duration-200">
+      <div id="confirmIconWrapper" class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto text-kitty-red text-xl mb-3">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 id="confirmDialogTitle" class="font-black font-kawaii text-sm text-kitty-dark mb-1">Xác nhận</h3>
+      <p id="confirmDialogMessage" class="text-xs text-gray-500 mb-4 font-bold">Hành động này không thể hoàn tác.</p>
+      <div class="flex space-x-2">
+        <button id="confirmCancelBtn" class="flex-1 py-2.5 bg-gray-100 text-gray-600 font-black text-xs rounded-xl hover:bg-gray-200 min-h-[40px]">Hủy</button>
+        <button id="confirmActionBtn" class="flex-1 py-2.5 bg-kitty-red hover:bg-kitty-red-dark text-white font-black text-xs rounded-xl shadow-kitty-glow min-h-[40px]">Tiếp tục</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kawaii Toast Notification Box -->
+  <div id="toastBox" class="fixed bottom-20 md:bottom-6 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 translate-y-6">
+    <div class="bg-kitty-dark text-white px-4 py-2.5 rounded-full shadow-2xl border-2 border-kitty-red flex items-center space-x-2.5">
+      <span class="text-base">🎀</span>
+      <span id="toastMessage" class="text-xs font-black tracking-wide font-kawaii">Đã thực hiện!</span>
+    </div>
+  </div>
+
+  <textarea id="hiddenCopyHelper" class="fixed -top-96 left-0 opacity-0 pointer-events-none"></textarea>
+
+  <script>
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioCtor = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtor) audioCtx = new AudioCtor();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('soundIcon');
+      if (soundEnabled) {
+        icon.className = 'fa-solid fa-volume-high text-sm text-kitty-red';
+        playSfx('chime');
+        showToast('Đã bật âm thanh 🎀');
+      } else {
+        icon.className = 'fa-solid fa-volume-xmark text-sm text-gray-400';
+        showToast('Đã tắt âm thanh 🔇');
+      }
+    }
+
+    function playSfx(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudioContext();
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+
+        if (type === 'pop') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(560, now);
+          osc.frequency.exponentialRampToValueAtTime(920, now + 0.08);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.09);
+        } else if (type === 'chime') {
+          // Playful ascending kawaii Sanrio chord
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+            gain.gain.setValueAtTime(0.18, now + idx * 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.22);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + idx * 0.05);
+            osc.stop(now + idx * 0.05 + 0.23);
+          });
+        }
+      } catch (e) {
+        console.warn('Audio notice:', e);
+      }
+    }
+
+    const PROFILES_STORAGE_KEY = 'kitty_v3_profiles';
+    const ACTIVE_USER_SESSION_KEY = 'kitty_v3_session';
+
+    let allProfiles = [];
+    let activeProfile = null;
+    let vaultTokens = [];
+    let currentAuthMode = 'login';
+    let codeCache = {};
+    let selectedSecretToken = null;
+
+    function loadSystemProfiles() {
+      try {
+        const raw = localStorage.getItem(PROFILES_STORAGE_KEY);
+        allProfiles = raw ? JSON.parse(raw) : [];
+      } catch (err) {
+        allProfiles = [];
+      }
+
+      // Guarantee root admin profile
+      let adminAccount = allProfiles.find(p => p.role === 'admin' || p.username.toLowerCase() === 'admin');
+      if (!adminAccount) {
+        adminAccount = {
+          id: 'admin_sys_root',
+          username: 'admin',
+          pin: '8888',
+          role: 'admin',
+          status: 'active',
+          createdAt: Date.now() - 86400000 * 30
+        };
+        allProfiles.unshift(adminAccount);
+        saveSystemProfiles();
+      }
+    }
+
+    function saveSystemProfiles() {
+      localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(allProfiles));
+    }
+
+    function getUserVaultStorageKey(userId) {
+      return `kitty_vault_${userId}`;
+    }
+
+    function loadVaultForUser(userId) {
+      try {
+        const raw = localStorage.getItem(getUserVaultStorageKey(userId));
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveActiveVault() {
+      if (!activeProfile || activeProfile.role === 'admin') return;
+      localStorage.setItem(getUserVaultStorageKey(activeProfile.id), JSON.stringify(vaultTokens));
+      updateTokenBadge();
+    }
+
+    function checkExistingSession() {
+      loadSystemProfiles();
+      const savedId = sessionStorage.getItem(ACTIVE_USER_SESSION_KEY);
+      if (savedId) {
+        const found = allProfiles.find(p => p.id === savedId);
+        if (found) {
+          if (found.status === 'locked' && found.role !== 'admin') {
+            sessionStorage.removeItem(ACTIVE_USER_SESSION_KEY);
+            showAuthGate();
+            showToast('Tài khoản này đang bị khóa bởi Quản trị viên! 🚫');
+            return;
+          }
+          onLoginSuccess(found, false);
+          return;
+        }
+      }
+      showAuthGate();
+    }
+
+    function showAuthGate() {
+      document.getElementById('authScreen').classList.remove('hidden');
+      renderQuickProfilesCarousel();
+      setAuthMode('login');
+    }
+
+    function renderQuickProfilesCarousel() {
+      const box = document.getElementById('quickProfilesContainer');
+      const list = document.getElementById('quickProfilesList');
+      const clients = allProfiles.filter(p => p.role !== 'admin');
+
+      if (clients.length === 0) {
+        box.classList.add('hidden');
+        return;
+      }
+
+      box.classList.remove('hidden');
+      list.innerHTML = clients.map(p => `
+        <button 
+          type="button" 
+          onclick="selectQuickProfile('${escapeHtml(p.username)}')" 
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl ${p.status === 'locked' ? 'bg-rose-50 border-rose-200 opacity-60' : 'bg-kitty-pink-blush hover:bg-kitty-pink-light border-kitty-border'} border text-xs font-black text-kitty-dark whitespace-nowrap active:scale-95 transition-all shadow-xs"
+        >
+          <span>${p.status === 'locked' ? '🔒' : '🌸'}</span>
+          <span>${escapeHtml(p.username)}</span>
+        </button>
+      `).join('');
+    }
+
+    function selectQuickProfile(uname) {
+      document.getElementById('authUsername').value = uname;
+      setAuthMode('login');
+      document.getElementById('authPin').focus();
+    }
+
+    function setAuthMode(mode) {
+      currentAuthMode = mode;
+      const tabLogin = document.getElementById('authTabLogin');
+      const tabReg = document.getElementById('authTabRegister');
+      const tabAdmin = document.getElementById('authTabAdmin');
+      const submitLabel = document.getElementById('authSubmitLabel');
+      const adminNotice = document.getElementById('adminNoticeBox');
+      const usernameInput = document.getElementById('authUsername');
+      const errorMsg = document.getElementById('authErrorMsg');
+      errorMsg.innerText = '';
+
+      tabLogin.className = 'flex-1 py-2 text-xs font-bold border-b-2 border-transparent text-gray-400 hover:text-kitty-red';
+      tabReg.className = 'flex-1 py-2 text-xs font-bold border-b-2 border-transparent text-gray-400 hover:text-kitty-red';
+      tabAdmin.className = 'flex-1 py-2 text-xs font-bold border-b-2 border-transparent text-gray-400 hover:text-kitty-purple flex items-center justify-center gap-1';
+      adminNotice.classList.add('hidden');
+
+      if (mode === 'login') {
+        tabLogin.className = 'flex-1 py-2 text-xs font-black border-b-2 border-kitty-red text-kitty-red';
+        submitLabel.innerText = 'Đăng Nhập';
+        if (usernameInput.value.toLowerCase() === 'admin') usernameInput.value = '';
+      } else if (mode === 'register') {
+        tabReg.className = 'flex-1 py-2 text-xs font-black border-b-2 border-kitty-red text-kitty-red';
+        submitLabel.innerText = 'Tạo Tài Khoản Mới';
+        if (usernameInput.value.toLowerCase() === 'admin') usernameInput.value = '';
+      } else if (mode === 'admin') {
+        tabAdmin.className = 'flex-1 py-2 text-xs font-black border-b-2 border-kitty-purple text-kitty-purple flex items-center justify-center gap-1';
+        submitLabel.innerText = 'Vào Bảng Quản Trị';
+        adminNotice.classList.remove('hidden');
+        usernameInput.value = 'admin';
+        document.getElementById('authPin').focus();
+      }
+    }
+
+    function togglePinVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const username = document.getElementById('authUsername').value.trim();
+      const pin = document.getElementById('authPin').value.trim();
+      const errorMsg = document.getElementById('authErrorMsg');
+      errorMsg.innerText = '';
+
+      if (username.length < 2) {
+        errorMsg.innerText = 'Tên tài khoản tối thiểu 2 ký tự!';
+        return;
+      }
+      if (pin.length < 4) {
+        errorMsg.innerText = 'Mã PIN tối thiểu 4 ký tự!';
+        return;
+      }
+
+      if (currentAuthMode === 'register') {
+        if (username.toLowerCase() === 'admin') {
+          errorMsg.innerText = 'Tên "admin" là đặc quyền của quản trị viên!';
+          return;
+        }
+
+        const existing = allProfiles.find(p => p.username.toLowerCase() === username.toLowerCase());
+        if (existing) {
+          errorMsg.innerText = 'Tên tài khoản này đã có trên máy!';
+          return;
+        }
+
+        const newProfile = {
+          id: 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+          username: username,
+          pin: pin,
+          role: 'user',
+          status: 'active',
+          createdAt: Date.now()
+        };
+
+        allProfiles.push(newProfile);
+        saveSystemProfiles();
+
+        // Welcome starter token
+        const starterTokens = [{
+          id: 'starter_' + Date.now(),
+          issuer: 'Google',
+          label: `${username.toLowerCase()}@sanrio.jp`,
+          secret: 'JBSWY3DPEHPK3PXP',
+          digits: 6,
+          period: 30,
+          algorithm: 'SHA-1',
+          createdAt: Date.now()
+        }];
+        localStorage.setItem(getUserVaultStorageKey(newProfile.id), JSON.stringify(starterTokens));
+
+        onLoginSuccess(newProfile, true);
+      } else {
+        const found = allProfiles.find(p => p.username.toLowerCase() === username.toLowerCase());
+        if (!found) {
+          errorMsg.innerText = 'Không tìm thấy tài khoản! Vui lòng chọn "Tạo Mới".';
+          return;
+        }
+
+        if (found.status === 'locked' && found.role !== 'admin') {
+          errorMsg.innerText = 'Tài khoản của bạn đã bị Khóa bởi Quản trị viên! 🚫';
+          return;
+        }
+
+        if (found.pin !== pin) {
+          errorMsg.innerText = 'Mã PIN không chính xác!';
+          return;
+        }
+
+        onLoginSuccess(found, false);
+      }
+    }
+
+    function onLoginSuccess(profile, isNew) {
+      activeProfile = profile;
+      sessionStorage.setItem(ACTIVE_USER_SESSION_KEY, profile.id);
+      document.getElementById('authScreen').classList.add('hidden');
+      document.getElementById('activeUsername').innerText = profile.username;
+
+      const adminView = document.getElementById('adminView');
+      const clientView = document.getElementById('clientView');
+      const mobileDock = document.getElementById('mobileDock');
+      const desktopActions = document.getElementById('desktopActions');
+      const roleBadge = document.getElementById('roleBadge');
+      const roleSubtext = document.getElementById('roleSubtext');
+      const userIcon = document.getElementById('userIconSpan');
+
+      if (profile.role === 'admin') {
+        adminView.classList.remove('hidden');
+        clientView.classList.add('hidden');
+        mobileDock.classList.add('hidden');
+        desktopActions.classList.add('hidden');
+        roleBadge.className = 'bg-purple-100 text-purple-700 font-black text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full border border-purple-300 shadow-xs';
+        roleBadge.innerText = 'ADMIN';
+        roleSubtext.innerText = 'Cổng Quản Trị Hệ Thống';
+        userIcon.innerText = '👑';
+        renderAdminDashboard();
+        showToast('Chào mừng Quản Trị Viên! 👑');
+      } else {
+        adminView.classList.add('hidden');
+        clientView.classList.remove('hidden');
+        mobileDock.classList.remove('hidden');
+        desktopActions.classList.remove('hidden');
+        roleBadge.className = 'bg-kitty-pink-light text-kitty-red font-black text-[10px] sm:text-xs px-2 py-0.5 rounded-full border border-kitty-pink/40 shadow-xs';
+        roleBadge.innerText = '2FA';
+        roleSubtext.innerText = 'Kho mã an toàn & bảo mật';
+        userIcon.innerText = '🌸';
+
+        vaultTokens = loadVaultForUser(profile.id);
+        updateTokenBadge();
+        renderTokenCards();
+        refreshTotpCodes();
+
+        if (isNew) blastCuteHeartConfetti();
+        showToast(`Xin chào ${profile.username}! 🎀`);
+      }
+
+      playSfx('chime');
+    }
+
+    function logout() {
+      sessionStorage.removeItem(ACTIVE_USER_SESSION_KEY);
+      activeProfile = null;
+      vaultTokens = [];
+      codeCache = {};
+      document.getElementById('authPin').value = '';
+      showAuthGate();
+      showToast('Đã đăng xuất hồ sơ an toàn');
+    }
+
+    const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+    function base32Decode(str) {
+      const clean = str.toUpperCase().replace(/[\s\-_=]/g, '');
+      let bits = 0, val = 0;
+      const bytes = [];
+      for (let i = 0; i < clean.length; i++) {
+        const idx = BASE32_ALPHABET.indexOf(clean.charAt(i));
+        if (idx === -1) continue;
+        val = (val << 5) | idx;
+        bits += 5;
+        if (bits >= 8) {
+          bytes.push((val >>> (bits - 8)) & 255);
+          bits -= 8;
+        }
+      }
+      return new Uint8Array(bytes);
+    }
+
+    async function calculateTotp(secretBase32, period = 30, digits = 6) {
+      try {
+        const keyBytes = base32Decode(secretBase32);
+        if (keyBytes.length === 0) return '000000';
+
+        const epoch = Math.floor(Date.now() / 1000);
+        const counter = Math.floor(epoch / period);
+
+        const counterBuffer = new ArrayBuffer(8);
+        const view = new DataView(counterBuffer);
+        view.setUint32(0, 0, false);
+        view.setUint32(4, counter, false);
+
+        const cryptoKey = await window.crypto.subtle.importKey(
+          'raw', keyBytes, { name: 'HMAC', hash: { name: 'SHA-1' } }, false, ['sign']
+        );
+
+        const sig = await window.crypto.subtle.sign('HMAC', cryptoKey, counterBuffer);
+        const sigBytes = new Uint8Array(sig);
+
+        const offset = sigBytes[sigBytes.length - 1] & 0x0f;
+        const binary =
+          ((sigBytes[offset] & 0x7f) << 24) |
+          ((sigBytes[offset + 1] & 0xff) << 16) |
+          ((sigBytes[offset + 2] & 0xff) << 8) |
+          (sigBytes[offset + 3] & 0xff);
+
+        const otp = binary % Math.pow(10, digits);
+        return otp.toString().padStart(digits, '0');
+      } catch (e) {
+        console.error('TOTP generation failure:', e);
+        return '------';
+      }
+    }
+
+    function formatOtpSplit(code) {
+      if (!code || code.length !== 6) return code;
+      return `${code.slice(0, 3)} ${code.slice(3)}`;
+    }
+
+    async function refreshTotpCodes() {
+      if (!activeProfile || activeProfile.role === 'admin') return;
+
+      for (const item of vaultTokens) {
+        const code = await calculateTotp(item.secret, item.period || 30, item.digits || 6);
+        codeCache[item.id] = code;
+
+        const codeEl = document.getElementById(`otp-code-${item.id}`);
+        if (codeEl) {
+          const formatted = formatOtpSplit(code);
+          if (codeEl.innerText !== formatted) {
+            codeEl.innerText = formatted;
+            codeEl.classList.add('scale-105', 'text-kitty-red');
+            setTimeout(() => codeEl.classList.remove('scale-105', 'text-kitty-red'), 260);
+          }
+        }
+      }
+    }
+
+    function getIssuerVisual(issuer) {
+      const s = (issuer || '').toLowerCase();
+      if (s.includes('google')) return { bg: 'bg-red-50 text-red-600', icon: 'fa-brands fa-google' };
+      if (s.includes('discord')) return { bg: 'bg-indigo-50 text-indigo-600', icon: 'fa-brands fa-discord' };
+      if (s.includes('github')) return { bg: 'bg-neutral-100 text-neutral-800', icon: 'fa-brands fa-github' };
+      if (s.includes('facebook')) return { bg: 'bg-blue-50 text-blue-600', icon: 'fa-brands fa-facebook' };
+      if (s.includes('steam')) return { bg: 'bg-slate-100 text-slate-800', icon: 'fa-brands fa-steam' };
+      if (s.includes('tiktok')) return { bg: 'bg-pink-50 text-pink-600', icon: 'fa-brands fa-tiktok' };
+      if (s.includes('roblox')) return { bg: 'bg-rose-50 text-rose-600', icon: 'fa-solid fa-cube' };
+      return { bg: 'bg-kitty-pink-light text-kitty-red', icon: 'fa-solid fa-shield-cat' };
+    }
+
+    function renderTokenCards() {
+      const container = document.getElementById('tokensGrid');
+      const emptyState = document.getElementById('emptyState');
+      const query = (document.getElementById('tokenSearchInput').value || '').trim().toLowerCase();
+      const clearBtn = document.getElementById('clearSearchBtn');
+
+      clearBtn.classList.toggle('hidden', query.length === 0);
+
+      const filtered = vaultTokens.filter(t => 
+        (t.issuer || '').toLowerCase().includes(query) ||
+        (t.label || '').toLowerCase().includes(query)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+        return;
+      } else {
+        emptyState.classList.add('hidden');
+        emptyState.classList.remove('flex');
+      }
+
+      container.innerHTML = filtered.map(t => {
+        const visual = getIssuerVisual(t.issuer);
+        const code = codeCache[t.id] ? formatOtpSplit(codeCache[t.id]) : '------';
+
+        return `
+          <div class="bg-white rounded-3xl p-4 sm:p-5 border-2 border-kitty-border shadow-kitty-card hover:shadow-kitty-glow transition-all duration-200 relative group flex flex-col justify-between">
+            <div class="absolute -top-2.5 right-6 select-none opacity-80 group-hover:opacity-100 transition-opacity">
+              <span class="text-sm">🎀</span>
+            </div>
+
+            <!-- Card Header -->
+            <div class="flex items-start justify-between mb-3 gap-2">
+              <div class="flex items-center space-x-3 overflow-hidden">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl ${visual.bg} flex items-center justify-center text-lg flex-shrink-0 border border-kitty-border/50 shadow-inner">
+                  <i class="${visual.icon}"></i>
+                </div>
+                <div class="overflow-hidden">
+                  <h3 class="font-black font-kawaii text-sm text-kitty-dark truncate">${escapeHtml(t.issuer || 'Dịch vụ')}</h3>
+                  <p class="text-[11px] sm:text-xs text-gray-500 font-bold truncate">${escapeHtml(t.label)}</p>
+                </div>
+              </div>
+
+              <!-- Action icons -->
+              <div class="flex items-center space-x-1 flex-shrink-0">
+                <button onclick="openViewSecretModal('${t.id}')" class="w-8 h-8 rounded-xl text-gray-400 hover:text-kitty-red hover:bg-kitty-pink-blush flex items-center justify-center transition-all" title="Xem QR & Khóa bí mật">
+                  <i class="fa-solid fa-qrcode text-xs"></i>
+                </button>
+                <button onclick="editToken('${t.id}')" class="w-8 h-8 rounded-xl text-gray-400 hover:text-kitty-red hover:bg-kitty-pink-blush flex items-center justify-center transition-all" title="Chỉnh sửa">
+                  <i class="fa-solid fa-pen text-xs"></i>
+                </button>
+                <button onclick="promptDeleteToken('${t.id}')" class="w-8 h-8 rounded-xl text-gray-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition-all" title="Xóa">
+                  <i class="fa-regular fa-trash-can text-xs"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- One-tap full width copy box -->
+            <div onclick="copyTokenCode('${t.id}')" class="cursor-pointer bg-kitty-pink-pastel/90 hover:bg-kitty-pink-light/75 border border-kitty-border rounded-2xl p-3 sm:p-3.5 flex items-center justify-between transition-all group/code active:scale-[0.98]" title="Chạm để sao chép">
+              <div class="flex flex-col">
+                <span class="text-[10px] uppercase font-black text-kitty-pink tracking-wider flex items-center gap-1">
+                  <i class="fa-regular fa-copy text-[10px]"></i> 1 Chạm để sao chép
+                </span>
+                <span id="otp-code-${t.id}" class="font-mono text-2xl sm:text-3xl font-black text-kitty-dark tracking-widest mt-0.5 select-all">
+                  ${code}
+                </span>
+              </div>
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white border border-kitty-border shadow-xs flex items-center justify-center text-kitty-red group-hover/code:scale-110 group-hover/code:bg-kitty-red group-hover/code:text-white transition-all flex-shrink-0">
+                <i class="fa-solid fa-clone text-sm"></i>
+              </div>
+            </div>
+
+            <!-- Footer indicator -->
+            <div class="mt-2.5 flex items-center justify-between text-[11px] text-gray-400 font-bold pt-1">
+              <span class="flex items-center gap-1.5 font-mono">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>SHA-1 • 30s</span>
+              </span>
+              <span class="text-[10px] text-kitty-pink font-semibold">Tài khoản: ${escapeHtml(activeProfile.username)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateTokenBadge() {
+      const badge = document.getElementById('tokenCountBadge');
+      if (badge) badge.innerText = `${vaultTokens.length} tài khoản 🎀`;
+    }
+
+    function startTimerLoop() {
+      const ring = document.getElementById('totpProgressRing');
+      const secLabel = document.getElementById('totpRemainSec');
+      const clock = document.getElementById('liveClock');
+      const circumference = 119.38;
+
+      async function updateClockTick() {
+        const now = new Date();
+        const epoch = Math.floor(now.getTime() / 1000);
+        const period = 30;
+        const remain = period - (epoch % period);
+
+        if (secLabel) secLabel.innerText = remain;
+        if (clock) clock.innerText = `Đồng hồ hệ thống: ${now.toLocaleTimeString('vi-VN', { hour12: false })}`;
+
+        if (ring) {
+          const progress = remain / period;
+          ring.style.strokeDashoffset = circumference * (1 - progress);
+          if (remain <= 5) {
+            ring.setAttribute('stroke', '#E01757');
+            if (secLabel) secLabel.classList.add('animate-pulse', 'text-rose-600');
+          } else {
+            ring.setAttribute('stroke', '#FF2A6D');
+            if (secLabel) secLabel.classList.remove('animate-pulse', 'text-rose-600');
+          }
+        }
+
+        if (remain === 30 || Object.keys(codeCache).length === 0) {
+          await refreshTotpCodes();
+        }
+      }
+
+      updateClockTick();
+      setInterval(updateClockTick, 500);
+    }
+
+    function copyTokenCode(id) {
+      const code = codeCache[id];
+      if (!code) return;
+      const digits = code.replace(/\s/g, '');
+      copyTextToClipboard(digits);
+      
+      // Haptic feedback for smartphones
+      if (navigator.vibrate) {
+        try { navigator.vibrate(30); } catch (e) {}
+      }
+
+      playSfx('pop');
+      showToast(`Đã sao chép: ${digits} 🎀`);
+      blastCuteHeartConfetti();
+    }
+
+    function copyViewSecret() {
+      if (!selectedSecretToken) return;
+      copyTextToClipboard(selectedSecretToken.secret);
+      playSfx('pop');
+      showToast('Đã sao chép Secret Key! 💖');
+    }
+
+    function copyTextToClipboard(text) {
+      const input = document.getElementById('hiddenCopyHelper');
+      input.value = text;
+      input.select();
+      input.setSelectionRange(0, 99999);
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text);
+        }
+      }
+    }
+
+    function blastCuteHeartConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 28,
+          spread: 60,
+          origin: { y: 0.8 },
+          colors: ['#FF2A6D', '#FF85A2', '#FFD152', '#FFE5EC', '#FFFFFF']
+        });
+      }
+    }
+
+    function showToast(text) {
+      const box = document.getElementById('toastBox');
+      const label = document.getElementById('toastMessage');
+      if (!box || !label) return;
+
+      label.innerText = text;
+      box.classList.remove('opacity-0', 'translate-y-6', 'pointer-events-none');
+      box.classList.add('opacity-100', 'translate-y-0');
+
+      if (window.toastTimer) clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        box.classList.remove('opacity-100', 'translate-y-0');
+        box.classList.add('opacity-0', 'translate-y-6', 'pointer-events-none');
+      }, 2400);
+    }
+
+    function clearSearch() {
+      document.getElementById('tokenSearchInput').value = '';
+      renderTokenCards();
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cleanSecretKeyInput(el) {
+      const pos = el.selectionStart;
+      el.value = el.value.toUpperCase().replace(/[\s\-_=]/g, '');
+      el.setSelectionRange(pos, pos);
+    }
+
+    function pasteSecretKey() {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        navigator.clipboard.readText().then(val => {
+          document.getElementById('inputSecretKey').value = val.toUpperCase().replace(/[\s\-_=]/g, '');
+          showToast('Đã dán Secret Key 📋');
+        }).catch(() => showToast('Hãy dùng phím Ctrl + V'));
+      }
+    }
+
+    function setPresetService(name) {
+      document.getElementById('inputIssuer').value = name;
+    }
+
+    let html5QrScanner = null;
+    let cameraActive = false;
+
+    function openAddModal(tab = 'manual') {
+      if (!activeProfile || activeProfile.role === 'admin') return;
+      document.getElementById('tokenForm').reset();
+      document.getElementById('editTokenId').value = '';
+      document.getElementById('addModalTitle').innerText = 'Thêm mã xác thực mới';
+      document.getElementById('saveBtnLabel').innerText = 'Lưu mã 2FA';
+      document.getElementById('addModal').classList.remove('hidden');
+      switchAddTab(tab);
+      playSfx('pop');
+    }
+
+    function closeAddModal() {
+      stopCameraScanner();
+      document.getElementById('addModal').classList.add('hidden');
+    }
+
+    function switchAddTab(tab) {
+      const manualBtn = document.getElementById('tabManualBtn');
+      const qrBtn = document.getElementById('tabQrBtn');
+      const manualContent = document.getElementById('tabManualContent');
+      const qrContent = document.getElementById('tabQrContent');
+
+      if (tab === 'manual') {
+        stopCameraScanner();
+        manualBtn.className = 'flex-1 py-2.5 text-xs font-black rounded-t-2xl transition-all border-b-2 border-kitty-red text-kitty-red bg-white min-h-[44px]';
+        qrBtn.className = 'flex-1 py-2.5 text-xs font-bold rounded-t-2xl transition-all border-b-2 border-transparent text-gray-500 hover:text-kitty-red min-h-[44px]';
+        manualContent.classList.remove('hidden');
+        qrContent.classList.add('hidden');
+      } else {
+        qrBtn.className = 'flex-1 py-2.5 text-xs font-black rounded-t-2xl transition-all border-b-2 border-kitty-red text-kitty-red bg-white min-h-[44px]';
+        manualBtn.className = 'flex-1 py-2.5 text-xs font-bold rounded-t-2xl transition-all border-b-2 border-transparent text-gray-500 hover:text-kitty-red min-h-[44px]';
+        qrContent.classList.remove('hidden');
+        manualContent.classList.add('hidden');
+      }
+    }
+
+    function parseOtpAuthUri(uri) {
+      try {
+        if (!uri.startsWith('otpauth://')) return null;
+        const parsed = new URL(uri);
+        let path = decodeURIComponent(parsed.pathname.replace(/^\//, ''));
+        let issuer = parsed.searchParams.get('issuer') || '';
+        let label = path;
+        if (path.includes(':')) {
+          const parts = path.split(':');
+          if (!issuer) issuer = parts[0].trim();
+          label = parts.slice(1).join(':').trim();
+        }
+        const secret = (parsed.searchParams.get('secret') || '').toUpperCase().replace(/[\s\-_=]/g, '');
+        if (!secret) return null;
+        return { issuer: issuer || 'Dịch vụ', label: label || 'Tài khoản', secret };
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function toggleCameraScanner() {
+      if (cameraActive) stopCameraScanner();
+      else startCameraScanner();
+    }
+
+    function startCameraScanner() {
+      const msg = document.getElementById('scanStatusMsg');
+      const btn = document.getElementById('cameraBtnText');
+      msg.innerText = 'Đang khởi động camera...';
+
+      if (!html5QrScanner) html5QrScanner = new Html5Qrcode('cameraViewport');
+
+      html5QrScanner.start(
+        { facingMode: 'environment' },
+        { fps: 12, qrbox: { width: 200, height: 200 }, aspectRatio: 1.0 },
+        onQrCodeScanned,
+        () => {}
+      ).then(() => {
+        cameraActive = true;
+        btn.innerText = 'Tắt máy ảnh';
+        msg.innerText = 'Đang hướng vào mã QR...';
+      }).catch(err => {
+        msg.innerText = 'Không thể mở camera. Vui lòng cấp quyền hoặc tải ảnh lên!';
+        showToast('Chưa cấp quyền camera');
+      });
+    }
+
+    function stopCameraScanner() {
+      const btn = document.getElementById('cameraBtnText');
+      const msg = document.getElementById('scanStatusMsg');
+      if (html5QrScanner && cameraActive) {
+        html5QrScanner.stop().then(() => {
+          cameraActive = false;
+          if (btn) btn.innerText = 'Mở máy ảnh';
+          if (msg) msg.innerText = '';
+        }).catch(() => { cameraActive = false; });
+      }
+    }
+
+    function onQrCodeScanned(decodedText) {
+      playSfx('chime');
+      const parsed = parseOtpAuthUri(decodedText);
+
+      if (parsed) {
+        stopCameraScanner();
+        vaultTokens.unshift({
+          id: 'tok_' + Date.now(),
+          issuer: parsed.issuer,
+          label: parsed.label,
+          secret: parsed.secret,
+          digits: 6,
+          period: 30,
+          algorithm: 'SHA-1',
+          createdAt: Date.now()
+        });
+        saveActiveVault();
+        closeAddModal();
+        refreshTotpCodes();
+        renderTokenCards();
+        blastCuteHeartConfetti();
+        showToast(`Đã thêm mã: ${parsed.issuer} 🎀`);
+      } else {
+        const cleanRaw = decodedText.trim().toUpperCase().replace(/[\s\-_=]/g, '');
+        if (cleanRaw.length >= 8 && /^[A-Z2-7]+$/.test(cleanRaw)) {
+          stopCameraScanner();
+          switchAddTab('manual');
+          document.getElementById('inputSecretKey').value = cleanRaw;
+          showToast('Đã trích xuất Secret Key!');
+        } else {
+          document.getElementById('scanStatusMsg').innerText = 'Mã QR không đúng định dạng 2FA!';
+        }
+      }
+    }
+
+    function handleQrImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const msg = document.getElementById('scanStatusMsg');
+      msg.innerText = 'Đang nhận dạng mã QR từ ảnh...';
+
+      if (!html5QrScanner) html5QrScanner = new Html5Qrcode('cameraViewport');
+      html5QrScanner.scanFile(file, true)
+        .then(result => onQrCodeScanned(result))
+        .catch(() => {
+          msg.innerText = 'Không tìm thấy mã QR trong bức ảnh này!';
+          showToast('Không đọc được mã QR trong ảnh');
+        });
+    }
+
+    function editToken(id) {
+      const token = vaultTokens.find(t => t.id === id);
+      if (!token) return;
+      openAddModal('manual');
+      document.getElementById('addModalTitle').innerText = 'Chỉnh sửa tài khoản';
+      document.getElementById('saveBtnLabel').innerText = 'Cập nhật';
+      document.getElementById('editTokenId').value = token.id;
+      document.getElementById('inputIssuer').value = token.issuer || '';
+      document.getElementById('inputAccountLabel').value = token.label || '';
+      document.getElementById('inputSecretKey').value = token.secret || '';
+    }
+
+    async function handleTokenSubmit(e) {
+      e.preventDefault();
+      if (!activeProfile || activeProfile.role === 'admin') return;
+
+      const editId = document.getElementById('editTokenId').value;
+      const issuer = document.getElementById('inputIssuer').value.trim();
+      const label = document.getElementById('inputAccountLabel').value.trim();
+      const secret = document.getElementById('inputSecretKey').value.trim().toUpperCase().replace(/[\s\-_=]/g, '');
+
+      if (!secret || secret.length < 8) {
+        showToast('Khóa bí mật không hợp lệ (tối thiểu 8 ký tự Base32)!');
+        return;
+      }
+
+      if (editId) {
+        const idx = vaultTokens.findIndex(t => t.id === editId);
+        if (idx !== -1) {
+          vaultTokens[idx] = { ...vaultTokens[idx], issuer, label, secret };
+          showToast('Đã cập nhật tài khoản 🎀');
+        }
+      } else {
+        vaultTokens.unshift({
+          id: 'tok_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+          issuer,
+          label,
+          secret,
+          digits: 6,
+          period: 30,
+          algorithm: 'SHA-1',
+          createdAt: Date.now()
+        });
+        showToast('Đã lưu mã mới vào hồ sơ! 💖');
+        playSfx('chime');
+        blastCuteHeartConfetti();
+      }
+
+      saveActiveVault();
+      closeAddModal();
+      await refreshTotpCodes();
+      renderTokenCards();
+    }
+
+    function addSampleToken() {
+      if (!activeProfile || activeProfile.role === 'admin') return;
+      const popular = ['Discord', 'Steam', 'Spotify', 'TikTok', 'Roblox', 'GitHub'];
+      const chosen = popular[Math.floor(Math.random() * popular.length)];
+      const sampleSecrets = ['JBSWY3DPEHPK3PXP', 'MZXW633PN5XW6MZX', 'KRSXG5CTMVRXEZLU', 'NBSWY3DPEHPK3PXP'];
+      const secret = sampleSecrets[Math.floor(Math.random() * sampleSecrets.length)];
+
+      vaultTokens.unshift({
+        id: 'sample_' + Date.now(),
+        issuer: chosen,
+        label: `${activeProfile.username.toLowerCase()}@sanrio.jp`,
+        secret,
+        digits: 6,
+        period: 30,
+        algorithm: 'SHA-1',
+        createdAt: Date.now()
+      });
+
+      saveActiveVault();
+      refreshTotpCodes();
+      renderTokenCards();
+      playSfx('chime');
+      blastCuteHeartConfetti();
+      showToast(`Đã thêm mẫu: ${chosen} 🎀`);
+    }
+
+    function promptDeleteToken(id) {
+      const token = vaultTokens.find(t => t.id === id);
+      if (!token) return;
+
+      openKawaiiConfirmModal(
+        'Xóa mã 2FA?',
+        `Bạn có chắc chắn muốn xóa mã "${token.issuer} (${token.label})" khỏi hồ sơ này?`,
+        () => {
+          vaultTokens = vaultTokens.filter(t => t.id !== id);
+          delete codeCache[id];
+          saveActiveVault();
+          renderTokenCards();
+          showToast('Đã xóa mã xác thực');
+        }
+      );
+    }
+
+    function openViewSecretModal(id) {
+      const token = vaultTokens.find(t => t.id === id);
+      if (!token) return;
+      selectedSecretToken = token;
+
+      document.getElementById('viewIssuerTitle').innerText = token.issuer || '2FA';
+      document.getElementById('viewAccountSubtitle').innerText = token.label || '';
+      document.getElementById('viewSecretRaw').innerText = token.secret;
+
+      const encIssuer = encodeURIComponent(token.issuer || 'App');
+      const encLabel = encodeURIComponent(token.label || 'User');
+      const otpauthUri = `otpauth://totp/${encIssuer}:${encLabel}?secret=${token.secret}&issuer=${encIssuer}`;
+
+      const targetBox = document.getElementById('reconstructedQrTarget');
+      targetBox.innerHTML = '';
+      new QRCode(targetBox, {
+        text: otpauthUri,
+        width: 170,
+        height: 170,
+        colorDark: '#3A2E35',
+        colorLight: '#FFFFFF',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      document.getElementById('viewSecretModal').classList.remove('hidden');
+      playSfx('pop');
+    }
+
+    function closeViewSecretModal() {
+      document.getElementById('viewSecretModal').classList.add('hidden');
+      selectedSecretToken = null;
+    }
+
+    function renderAdminDashboard() {
+      loadSystemProfiles();
+      const clients = allProfiles.filter(p => p.role !== 'admin');
+      const activeCount = clients.filter(u => u.status === 'active').length;
+      const lockedCount = clients.filter(u => u.status === 'locked').length;
+
+      let totalTokenCount = 0;
+      clients.forEach(u => {
+        const vault = loadVaultForUser(u.id);
+        totalTokenCount += vault.length;
+      });
+
+      document.getElementById('statTotalUsers').innerText = clients.length;
+      document.getElementById('statTotalTokens').innerText = totalTokenCount;
+      document.getElementById('statActiveUsers').innerText = activeCount;
+      document.getElementById('statLockedUsers').innerText = lockedCount;
+      document.getElementById('adminProfilesCount').innerText = `${clients.length} hồ sơ`;
+
+      renderAdminUserList();
+    }
+
+    function renderAdminUserList() {
+      const tableBody = document.getElementById('adminTableBody');
+      const mobileList = document.getElementById('adminMobileList');
+      const query = (document.getElementById('adminSearchUser').value || '').trim().toLowerCase();
+
+      const clients = allProfiles.filter(p => p.role !== 'admin' && p.username.toLowerCase().includes(query));
+
+      if (clients.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-gray-400 font-bold">Không tìm thấy hồ sơ người dùng nào</td></tr>`;
+        mobileList.innerHTML = `<div class="p-4 text-center text-gray-400 font-bold bg-pink-50/50 rounded-2xl">Không tìm thấy hồ sơ nào</div>`;
+        return;
+      }
+
+      // Desktop Table Rows
+      tableBody.innerHTML = clients.map(user => {
+        const vault = loadVaultForUser(user.id);
+        const isLocked = user.status === 'locked';
+        const dateStr = new Date(user.createdAt || Date.now()).toLocaleDateString('vi-VN');
+
+        return `
+          <tr class="hover:bg-kitty-pink-pastel/60 transition-colors">
+            <td class="py-3 px-3">
+              <div class="flex items-center gap-2">
+                <span class="text-base">${isLocked ? '🔒' : '🌸'}</span>
+                <div>
+                  <span class="font-black text-kitty-dark">${escapeHtml(user.username)}</span>
+                  <span class="block text-[10px] text-gray-400 font-mono">ID: ${user.id}</span>
+                </div>
+              </div>
+            </td>
+            <td class="py-3 px-3 text-gray-500 font-bold font-mono">${dateStr}</td>
+            <td class="py-3 px-3 text-center">
+              <span class="bg-kitty-pink-blush text-kitty-red px-2.5 py-1 rounded-xl text-xs font-black border border-kitty-border font-mono">
+                ${vault.length} khóa
+              </span>
+            </td>
+            <td class="py-3 px-3 text-center">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-black ${isLocked ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}">
+                ${isLocked ? 'Bị khóa' : 'Hoạt động'}
+              </span>
+            </td>
+            <td class="py-3 px-3 text-right">
+              <div class="flex items-center justify-end gap-1.5">
+                <button 
+                  onclick="adminToggleLock('${user.id}')" 
+                  class="px-2.5 py-1.5 rounded-xl text-xs font-black transition-all ${isLocked ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-300' : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-300'}"
+                  title="${isLocked ? 'Mở khóa' : 'Khóa hồ sơ'}"
+                >
+                  <i class="fa-solid ${isLocked ? 'fa-lock-open' : 'fa-lock'} mr-1"></i>
+                  <span>${isLocked ? 'Mở khóa' : 'Khóa'}</span>
+                </button>
+                <button 
+                  onclick="adminResetPinPrompt('${user.id}')" 
+                  class="px-2.5 py-1.5 rounded-xl text-xs font-black bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-300 transition-all"
+                  title="Đặt lại mã PIN về 1234"
+                >
+                  <i class="fa-solid fa-rotate-left mr-1"></i> Reset PIN
+                </button>
+                <button 
+                  onclick="adminDeleteUserPrompt('${user.id}')" 
+                  class="w-8 h-8 rounded-xl text-rose-500 hover:bg-rose-50 hover:text-rose-700 flex items-center justify-center transition-all"
+                  title="Xóa hồ sơ"
+                >
+                  <i class="fa-regular fa-trash-can text-xs"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Mobile Touch Cards
+      mobileList.innerHTML = clients.map(user => {
+        const vault = loadVaultForUser(user.id);
+        const isLocked = user.status === 'locked';
+        const dateStr = new Date(user.createdAt || Date.now()).toLocaleDateString('vi-VN');
+
+        return `
+          <div class="bg-kitty-pink-pastel/70 border border-kitty-border rounded-2xl p-3.5 space-y-2.5 shadow-xs">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-base">${isLocked ? '🔒' : '🌸'}</span>
+                <div>
+                  <h4 class="font-black text-sm text-kitty-dark">${escapeHtml(user.username)}</h4>
+                  <span class="text-[10px] text-gray-400 font-mono">Tạo ngày: ${dateStr}</span>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${isLocked ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}">
+                ${isLocked ? 'Bị khóa' : 'Hoạt động'}
+              </span>
+            </div>
+
+            <div class="flex items-center justify-between text-xs font-bold text-gray-600 bg-white p-2 rounded-xl border border-kitty-border/60">
+              <span>Đang lưu trữ:</span>
+              <span class="text-kitty-red font-black font-mono">${vault.length} mã 2FA</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-1.5 pt-1">
+              <button 
+                onclick="adminToggleLock('${user.id}')" 
+                class="py-2 text-[11px] font-black rounded-xl text-center ${isLocked ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'} active:scale-95 transition-transform"
+              >
+                <i class="fa-solid ${isLocked ? 'fa-lock-open' : 'fa-lock'}"></i> ${isLocked ? 'Mở' : 'Khóa'}
+              </button>
+              <button 
+                onclick="adminResetPinPrompt('${user.id}')" 
+                class="py-2 text-[11px] font-black rounded-xl text-center bg-purple-100 text-purple-800 active:scale-95 transition-transform"
+              >
+                <i class="fa-solid fa-rotate-left"></i> Reset PIN
+              </button>
+              <button 
+                onclick="adminDeleteUserPrompt('${user.id}')" 
+                class="py-2 text-[11px] font-black rounded-xl text-center bg-rose-100 text-rose-800 active:scale-95 transition-transform"
+              >
+                <i class="fa-regular fa-trash-can"></i> Xóa
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function adminToggleLock(userId) {
+      const idx = allProfiles.findIndex(p => p.id === userId);
+      if (idx === -1) return;
+      const u = allProfiles[idx];
+      u.status = (u.status === 'locked') ? 'active' : 'locked';
+      saveSystemProfiles();
+      renderAdminDashboard();
+      playSfx('pop');
+      showToast(u.status === 'locked' ? `Đã khóa hồ sơ ${u.username} 🔒` : `Đã mở khóa cho ${u.username} 🔓`);
+    }
+
+    function adminResetPinPrompt(userId) {
+      const u = allProfiles.find(p => p.id === userId);
+      if (!u) return;
+
+      openKawaiiConfirmModal(
+        'Đặt lại mã PIN?',
+        `Bạn có muốn đặt lại mã PIN của "${u.username}" về mật mã mặc định "1234"?`,
+        () => {
+          u.pin = '1234';
+          saveSystemProfiles();
+          renderAdminDashboard();
+          playSfx('chime');
+          showToast(`Đã reset PIN của ${u.username} về: 1234 🔑`);
+        }
+      );
+    }
+
+    function adminDeleteUserPrompt(userId) {
+      const u = allProfiles.find(p => p.id === userId);
+      if (!u) return;
+
+      openKawaiiConfirmModal(
+        'Xóa tài khoản người dùng?',
+        `Toàn bộ dữ liệu của "${u.username}" và kho 2FA của họ sẽ bị xóa hoàn toàn khỏi thiết bị này!`,
+        () => {
+          allProfiles = allProfiles.filter(p => p.id !== userId);
+          localStorage.removeItem(getUserVaultStorageKey(userId));
+          saveSystemProfiles();
+          renderAdminDashboard();
+          playSfx('pop');
+          showToast(`Đã xóa khách hàng ${u.username}`);
+        }
+      );
+    }
+
+    function openCreateUserModal() {
+      document.getElementById('adminNewUserName').value = '';
+      document.getElementById('adminNewUserPin').value = '1234';
+      document.getElementById('createUserModal').classList.remove('hidden');
+    }
+
+    function closeCreateUserModal() {
+      document.getElementById('createUserModal').classList.add('hidden');
+    }
+
+    function handleAdminCreateUser(e) {
+      e.preventDefault();
+      const uname = document.getElementById('adminNewUserName').value.trim();
+      const pin = document.getElementById('adminNewUserPin').value.trim();
+
+      if (uname.length < 2 || pin.length < 4) {
+        showToast('Tên tối thiểu 2 ký tự, PIN tối thiểu 4 ký tự!');
+        return;
+      }
+
+      if (allProfiles.some(p => p.username.toLowerCase() === uname.toLowerCase())) {
+        showToast('Tên tài khoản này đã có trên máy!');
+        return;
+      }
+
+      const newClient = {
+        id: 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        username: uname,
+        pin: pin,
+        role: 'user',
+        status: 'active',
+        createdAt: Date.now()
+      };
+
+      allProfiles.push(newClient);
+      saveSystemProfiles();
+      localStorage.setItem(getUserVaultStorageKey(newClient.id), JSON.stringify([]));
+
+      closeCreateUserModal();
+      renderAdminDashboard();
+      playSfx('chime');
+      showToast(`Đã tạo hồ sơ cho ${uname} 🌸`);
+    }
+
+    function openBackupModal() {
+      document.getElementById('backupModal').classList.remove('hidden');
+      playSfx('pop');
+    }
+
+    function closeBackupModal() {
+      document.getElementById('backupModal').classList.add('hidden');
+    }
+
+    function exportVaultJson() {
+      if (!activeProfile || activeProfile.role === 'admin') return;
+      const dataStr = JSON.stringify(vaultTokens, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `hello-kitty-2fa-${activeProfile.username}-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      playSfx('chime');
+      showToast('Đã tải tệp JSON sao lưu! 🎀');
+    }
+
+    function handleImportVaultJson(e) {
+      const file = e.target.files[0];
+      if (!file || !activeProfile || activeProfile.role === 'admin') return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const list = JSON.parse(evt.target.result);
+          if (Array.isArray(list)) {
+            let importedCount = 0;
+            list.forEach(item => {
+              if (item.secret && item.secret.length >= 8) {
+                const isDuplicate = vaultTokens.some(t => t.secret === item.secret && t.issuer === item.issuer);
+                if (!isDuplicate) {
+                  vaultTokens.push({
+                    id: 'imp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                    issuer: item.issuer || 'Imported',
+                    label: item.label || 'Tài khoản',
+                    secret: item.secret.toUpperCase().replace(/[\s\-_=]/g, ''),
+                    digits: item.digits || 6,
+                    period: item.period || 30,
+                    algorithm: item.algorithm || 'SHA-1',
+                    createdAt: Date.now()
+                  });
+                  importedCount++;
+                }
+              }
+            });
+
+            saveActiveVault();
+            refreshTotpCodes();
+            renderTokenCards();
+            closeBackupModal();
+            playSfx('chime');
+            blastCuteHeartConfetti();
+            showToast(`Đã nạp ${importedCount} mã vào hồ sơ! 💖`);
+          } else {
+            showToast('Tệp JSON không đúng cấu trúc!');
+          }
+        } catch (err) {
+          showToast('Lỗi khi đọc tệp tin JSON!');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    function openKawaiiConfirmModal(title, msg, onOk) {
+      const modal = document.getElementById('confirmModal');
+      const titleEl = document.getElementById('confirmDialogTitle');
+      const msgEl = document.getElementById('confirmDialogMessage');
+      const actionBtn = document.getElementById('confirmActionBtn');
+      const cancelBtn = document.getElementById('confirmCancelBtn');
+
+      titleEl.innerText = title;
+      msgEl.innerText = msg;
+      modal.classList.remove('hidden');
+
+      function onConfirm() {
+        teardown();
+        if (typeof onOk === 'function') onOk();
+      }
+
+      function onCancel() {
+        teardown();
+      }
+
+      function teardown() {
+        modal.classList.add('hidden');
+        actionBtn.removeEventListener('click', onConfirm);
+        cancelBtn.removeEventListener('click', onCancel);
+      }
+
+      actionBtn.addEventListener('click', onConfirm);
+      cancelBtn.addEventListener('click', onCancel);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.innerText = text;
+      return div.innerHTML;
+    }
+
+    // Global keyboard shortcuts (Desktop convenience)
+    window.addEventListener('keydown', (e) => {
+      // Escape closes open modals
+      if (e.key === 'Escape') {
+        closeAddModal();
+        closeViewSecretModal();
+        closeBackupModal();
+        closeCreateUserModal();
+        document.getElementById('confirmModal').classList.add('hidden');
+      }
+      // Ctrl/Cmd + K focuses search bar
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const searchInput = document.getElementById('tokenSearchInput');
+        if (searchInput && !document.getElementById('clientView').classList.contains('hidden')) {
+          searchInput.focus();
+        }
+      }
+    });
+
+    window.onload = function() {
+      checkExistingSession();
+      startTimerLoop();
+      document.body.addEventListener('click', initAudioContext, { once: true });
+    };
+  </script>
 </body>
 </html>
