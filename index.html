@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Hello Kitty 2FA Authenticator</title>
   
   <!-- Tailwind CSS & Google Fonts -->
@@ -81,6 +81,21 @@
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
+
+    /* Chuẩn hóa cho TOÀN BỘ thiết bị di động (Android, iOS, iPad):
+       Cố định font-size tối thiểu 16px để triệt tiêu tình trạng tự động zoom gây lệch màn hình */
+    @media (pointer: coarse), (max-width: 1024px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    /* Tự động ẩn cụm nút trôi nổi khi bất kỳ thiết bị nào đang bật bàn phím ảo */
+    body.keyboard-open #mobileBottomBar,
+    body.keyboard-open aside {
+      display: none !important;
+    }
+
     .custom-scroll::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -94,7 +109,7 @@
       border-radius: 8px;
     }
     .glass-card {
-      background: rgba(255, 255, 255, 0.90);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 3px solid #FFA3BA;
@@ -114,7 +129,7 @@
   </div>
 
   <!-- ==================== THANH ĐIỀU HƯỚNG TRÊN (HEADER) ==================== -->
-  <header class="relative z-30 w-full max-w-5xl mx-auto px-4 pt-4 sm:pt-6">
+  <header class="relative z-30 w-full max-w-5xl mx-auto px-4 pt-3 sm:pt-6">
     <div class="glass-card rounded-3xl p-3 sm:p-4 shadow-lg shadow-pink-200/50 flex items-center justify-between">
       
       <!-- Brand Logo & Tên Web -->
@@ -152,23 +167,21 @@
         </div>
       </div>
 
-      <!-- Khu vực hiển thị thông tin tài khoản & Nút thao tác nhanh -->
+      <!-- Khu vực hiển thị thông tin tài khoản & Nút thao tác -->
       <div id="authHeaderBar" class="flex items-center gap-1.5 sm:gap-2">
-        <!-- Nút Donate trên Header -->
-        <button onclick="openDonateModal()" class="touch-btn bg-gradient-to-r from-amber-400 to-sanrio-yellow hover:opacity-95 text-amber-950 font-black px-3 py-1.5 rounded-2xl text-xs sm:text-sm shadow-sm border border-amber-300 flex items-center gap-1.5">
+        <button onclick="openDonateModal()" class="touch-btn bg-gradient-to-r from-amber-400 to-sanrio-yellow hover:opacity-95 text-amber-950 font-black px-2.5 py-1.5 rounded-2xl text-xs sm:text-sm shadow-sm border border-amber-300 flex items-center gap-1.5">
           <span>☕</span>
           <span class="hidden sm:inline">Ủng hộ Team</span>
         </button>
 
         <span id="roleBadge" class="hidden text-xs font-black px-2.5 py-1 rounded-xl shadow-inner"></span>
         
-        <!-- Nút Đổi PIN người dùng (Chỉ hiện khi khách đã đăng nhập) -->
         <button id="userChangePinBtn" onclick="openUserChangePinModal()" title="Đổi mã PIN bảo vệ của bạn" class="hidden touch-btn bg-white hover:bg-pink-100 text-pink-700 border-2 border-sanrio-border font-extrabold p-1.5 sm:px-3 sm:py-1.5 rounded-2xl text-xs shadow-sm">
           <span>🔑</span>
           <span class="hidden sm:inline ml-1">Đổi PIN</span>
         </button>
 
-        <button id="logoutBtn" onclick="handleLogout()" class="hidden touch-btn bg-white hover:bg-pink-100 text-sanrio-deepPink border-2 border-sanrio-border font-extrabold px-3 py-1.5 rounded-2xl text-xs sm:text-sm shadow-sm transition-all flex items-center gap-1.5">
+        <button id="logoutBtn" onclick="handleLogout()" class="hidden touch-btn bg-white hover:bg-pink-100 text-sanrio-deepPink border-2 border-sanrio-border font-extrabold px-2.5 py-1.5 rounded-2xl text-xs sm:text-sm shadow-sm transition-all flex items-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
           <span class="hidden sm:inline">Đổi tài khoản</span>
         </button>
@@ -181,51 +194,51 @@
   <main class="relative z-20 w-full max-w-5xl mx-auto px-4 mt-4 sm:mt-6 flex-1">
 
     <!-- 1. VIEW ĐĂNG NHẬP / CHỌN TÀI KHOẢN -->
-    <div id="loginView" class="max-w-md mx-auto glass-card rounded-3xl p-6 sm:p-8 shadow-xl shadow-pink-200/60 transition-all">
-      <div class="text-center mb-6">
-        <div class="inline-flex p-3 bg-white rounded-3xl border-2 border-sanrio-border shadow-sm mb-3">
-          <span class="text-4xl animate-bounce">🎀</span>
+    <div id="loginView" class="max-w-md mx-auto glass-card rounded-3xl p-5 sm:p-8 shadow-xl shadow-pink-200/60 transition-all">
+      <div class="text-center mb-4 sm:mb-6">
+        <div class="inline-flex p-2.5 sm:p-3 bg-white rounded-3xl border-2 border-sanrio-border shadow-sm mb-2 sm:mb-3">
+          <span class="text-3xl sm:text-4xl animate-bounce">🎀</span>
         </div>
-        <h2 class="text-2xl font-black font-display text-sanrio-dark">Chào mừng bạn!</h2>
+        <h2 class="text-xl sm:text-2xl font-black font-display text-sanrio-dark">Chào mừng bạn!</h2>
         <p class="text-xs text-pink-600 font-bold mt-1">Đăng nhập tài khoản hoặc tạo mới để quản lý mã 2FA riêng của bạn</p>
       </div>
 
       <!-- Tab Chuyển đổi Khách Hàng / Admin -->
-      <div class="flex bg-pink-100/80 p-1.5 rounded-2xl mb-5 border-2 border-sanrio-border/60">
-        <button id="tabClientBtn" onclick="switchLoginTab('client')" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-white text-sanrio-deepPink shadow-sm">
+      <div class="flex bg-pink-100/80 p-1.5 rounded-2xl mb-4 sm:mb-5 border-2 border-sanrio-border/60">
+        <button id="tabClientBtn" type="button" onclick="switchLoginTab('client')" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all bg-white text-sanrio-deepPink shadow-sm">
           Khách Hàng
         </button>
-        <button id="tabAdminBtn" onclick="switchLoginTab('admin')" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all text-pink-700 hover:text-sanrio-deepPink">
+        <button id="tabAdminBtn" type="button" onclick="switchLoginTab('admin')" class="flex-1 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all text-pink-700 hover:text-sanrio-deepPink">
           👑 Quản Trị Viên (Admin)
         </button>
       </div>
 
-      <!-- Form Nhập Liệu -->
-      <div class="space-y-4">
+      <!-- Form Đăng Nhập Tương Thích Hoàn Hảo Cho Mọi Bàn Phím -->
+      <form id="loginForm" onsubmit="event.preventDefault(); handleLogin();" class="space-y-3.5 sm:space-y-4">
         <div>
           <label class="block text-xs font-extrabold text-sanrio-dark mb-1.5">Tên tài khoản</label>
-          <input type="text" id="loginUsername" placeholder="Nhập tên của bạn..." class="w-full bg-white/90 border-2 border-sanrio-border rounded-2xl px-4 py-2.5 text-sm font-bold text-sanrio-dark focus:outline-none focus:border-sanrio-deepPink focus:ring-2 focus:ring-pink-200 transition-all shadow-inner">
+          <input type="text" id="loginUsername" autocomplete="username" autocapitalize="none" autocorrect="off" placeholder="Nhập tên của bạn..." class="w-full bg-white/90 border-2 border-sanrio-border rounded-2xl px-4 py-2.5 font-bold text-sanrio-dark focus:outline-none focus:border-sanrio-deepPink focus:ring-2 focus:ring-pink-200 transition-all shadow-inner">
         </div>
 
         <div>
           <label class="block text-xs font-extrabold text-sanrio-dark mb-1.5">Mã PIN bảo vệ (4 số)</label>
-          <input type="password" id="loginPin" maxlength="6" placeholder="••••" class="w-full bg-white/90 border-2 border-sanrio-border rounded-2xl px-4 py-2.5 text-sm font-bold tracking-widest text-center text-sanrio-dark focus:outline-none focus:border-sanrio-deepPink focus:ring-2 focus:ring-pink-200 transition-all shadow-inner">
+          <input type="password" id="loginPin" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="current-password" placeholder="••••" class="w-full bg-white/90 border-2 border-sanrio-border rounded-2xl px-4 py-2.5 font-bold tracking-widest text-center text-sanrio-dark focus:outline-none focus:border-sanrio-deepPink focus:ring-2 focus:ring-pink-200 transition-all shadow-inner">
         </div>
 
         <!-- Nút Đăng nhập -->
-        <button onclick="handleLogin()" class="w-full touch-btn bg-gradient-to-r from-sanrio-deepPink to-sanrio-bowRed text-white py-3 rounded-2xl font-black text-sm shadow-md shadow-pink-300 hover:opacity-95 transition-all flex items-center justify-center gap-2">
+        <button type="submit" class="w-full touch-btn bg-gradient-to-r from-sanrio-deepPink to-sanrio-bowRed text-white py-3 rounded-2xl font-black text-sm shadow-md shadow-pink-300 hover:opacity-95 transition-all flex items-center justify-center gap-2">
           <span>Đăng nhập ngay</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </button>
 
         <!-- Nút Tạo tài khoản mới -->
-        <div id="registerPrompt" class="text-center pt-2">
+        <div id="registerPrompt" class="text-center pt-1.5">
           <p class="text-xs font-bold text-pink-700">Chưa có tài khoản trên máy này?</p>
-          <button onclick="openRegisterModal()" class="text-xs font-black text-sanrio-deepPink hover:underline mt-1">
+          <button type="button" onclick="openRegisterModal()" class="text-xs font-black text-sanrio-deepPink hover:underline mt-0.5">
             + Nhấn vào đây để Tạo tài khoản mới
           </button>
         </div>
-      </div>
+      </form>
     </div>
 
     <!-- 2. VIEW KHÁCH HÀNG: QUẢN LÝ MÃ 2FA CÁ NHÂN -->
@@ -239,10 +252,10 @@
           <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-pink-400">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </span>
-          <input type="text" id="searchInput" oninput="renderTotpList()" placeholder="Tìm kiếm tài khoản..." class="w-full bg-white/90 border-2 border-sanrio-border/80 rounded-2xl pl-10 pr-4 py-2 text-xs sm:text-sm font-bold text-sanrio-dark focus:outline-none focus:border-sanrio-deepPink transition-all">
+          <input type="text" id="searchInput" oninput="renderTotpList()" placeholder="Tìm kiếm tài khoản..." class="w-full bg-white/90 border-2 border-sanrio-border/80 rounded-2xl pl-10 pr-4 py-2 font-bold text-sanrio-dark focus:outline-none focus:border-sanrio-deepPink transition-all">
         </div>
 
-        <!-- Các Nút Hành Động Nhanh (Desktop) -->
+        <!-- Các Nút Hành Động Nhanh (Desktop & Tablet) -->
         <div class="hidden md:flex items-center gap-2 w-full sm:w-auto justify-end">
           <button onclick="openQrScannerModal()" class="touch-btn bg-white hover:bg-pink-50 text-sanrio-deepPink border-2 border-sanrio-border px-3.5 py-2 rounded-2xl text-xs font-extrabold shadow-sm transition-all flex items-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
@@ -260,7 +273,7 @@
         </div>
       </div>
 
-      <!-- Danh Sách Mã 2FA (Lưới Responsive 1 - 2 - 3 Cột) -->
+      <!-- Danh Sách Mã 2FA (Lưới Responsive Tự Co Giãn Trên Tất Cả Màn Hình) -->
       <div id="totpGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
         <!-- Render bằng Javascript -->
       </div>
@@ -352,7 +365,6 @@
 
     <!-- 2. NÚT LIÊN HỆ ADMIN QUA ZALO -->
     <a href="https://zalo.me/0567866683" target="_blank" rel="noopener noreferrer" title="Liên hệ Admin qua Zalo (0567.866.683)" class="touch-btn group flex items-center gap-2 bg-[#0068FF] hover:bg-blue-600 text-white p-2.5 sm:px-3.5 sm:py-2.5 rounded-full shadow-lg shadow-blue-400/50 border-2 border-white transition-all">
-      <!-- Icon Zalo SVG -->
       <div class="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[#0068FF] font-black text-xs">
         <span class="font-extrabold font-sans">Z</span>
       </div>
@@ -388,12 +400,10 @@
   <div id="donateModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-md">
     <div class="w-full max-w-sm sm:max-w-md bg-white rounded-3xl border-4 border-sanrio-pink shadow-2xl p-4 sm:p-6 text-center relative overflow-hidden max-h-[92vh] overflow-y-auto custom-scroll animate-heartPop">
       
-      <!-- Nút đóng -->
       <button onclick="closeDonateModal()" class="absolute top-3 right-3 text-pink-400 hover:text-sanrio-bowRed w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-xl font-black transition-colors">
         &times;
       </button>
 
-      <!-- Header Cute Cafe -->
       <div class="flex items-center justify-center gap-2 mb-1">
         <span class="text-2xl animate-bounce">☕</span>
         <h3 class="text-xl sm:text-2xl font-black font-display text-sanrio-deepPink uppercase tracking-wide">
@@ -406,7 +416,6 @@
         <span class="text-pink-600 font-extrabold">Để chúng mình lấy động lực phát triển nhiều hơn nhé! 😊</span>
       </p>
 
-      <!-- Khung Thẻ VietQR Techcombank -->
       <div class="mt-4 p-3.5 bg-gradient-to-b from-pink-50 via-white to-pink-50 rounded-2xl border-2 border-sanrio-border shadow-inner">
         
         <div class="flex items-center justify-center gap-2 mb-2">
@@ -424,14 +433,12 @@
           </button>
         </div>
 
-        <!-- Ảnh Mã QR Chuyển Khoản Thực Tế (VietQR API) -->
         <div class="relative w-52 h-52 sm:w-60 sm:h-60 mx-auto bg-white p-2.5 rounded-2xl border-2 border-dashed border-sanrio-border shadow-sm flex items-center justify-center">
           <img src="https://img.vietqr.io/image/TCB-8888844488-compact2.png?amount=&addInfo=Ung%20ho%20HOTGENZ.COM&accountName=NGUYEN%20DUC%20DAT" 
                alt="Mã QR Chuyển Khoản Techcombank" 
                class="w-full h-full object-contain rounded-xl">
         </div>
 
-        <!-- Bảng Chi Tiết Thông Tin Chuyển Khoản -->
         <div class="mt-3.5 space-y-1.5 text-left text-xs font-bold text-sanrio-dark bg-white/90 p-3 rounded-xl border border-pink-200">
           <div class="flex justify-between items-center py-0.5 border-b border-pink-100">
             <span class="text-pink-500 font-extrabold">🏦 Ngân hàng:</span>
@@ -459,7 +466,6 @@
 
       </div>
 
-      <!-- Lời Cảm Ơn Cuối -->
       <div class="mt-3 text-center">
         <p class="text-xs font-black text-pink-600">
           Mọi sự đóng góp đều được trân trọng 💕
@@ -531,15 +537,15 @@
       <div class="space-y-3">
         <div>
           <label class="block text-xs font-bold text-sanrio-dark mb-1">Mã PIN hiện tại</label>
-          <input type="password" id="currentPinInput" maxlength="6" placeholder="••••" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 text-xs font-bold text-center tracking-widest focus:outline-none focus:border-sanrio-deepPink">
+          <input type="password" id="currentPinInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 font-bold text-center tracking-widest focus:outline-none focus:border-sanrio-deepPink">
         </div>
         <div>
           <label class="block text-xs font-bold text-sanrio-dark mb-1">Mã PIN mới (4-6 số)</label>
-          <input type="password" id="newPinInput" maxlength="6" placeholder="••••" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 text-xs font-bold text-center tracking-widest focus:outline-none focus:border-sanrio-deepPink">
+          <input type="password" id="newPinInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 font-bold text-center tracking-widest focus:outline-none focus:border-sanrio-deepPink">
         </div>
         <div>
           <label class="block text-xs font-bold text-sanrio-dark mb-1">Xác nhận mã PIN mới</label>
-          <input type="password" id="confirmNewPinInput" maxlength="6" placeholder="••••" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 text-xs font-bold text-center tracking-widest focus:outline-none focus:border-sanrio-deepPink">
+          <input type="password" id="confirmNewPinInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 font-bold text-center tracking-widest focus:outline-none focus:border-sanrio-deepPink">
         </div>
         <button onclick="handleUserChangePin()" class="w-full touch-btn bg-sanrio-deepPink text-white py-2.5 rounded-2xl font-black text-xs shadow-md shadow-pink-200 mt-2">
           Xác Nhận Đổi PIN
@@ -558,11 +564,11 @@
       <div class="space-y-3.5">
         <div>
           <label class="block text-xs font-bold text-sanrio-dark mb-1">Tên của bạn</label>
-          <input type="text" id="regUsername" placeholder="Ví dụ: kitty_cute" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 text-sm font-bold focus:outline-none focus:border-sanrio-deepPink">
+          <input type="text" id="regUsername" autocapitalize="none" autocorrect="off" placeholder="Ví dụ: kitty_cute" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 font-bold focus:outline-none focus:border-sanrio-deepPink">
         </div>
         <div>
           <label class="block text-xs font-bold text-sanrio-dark mb-1">Đặt mã PIN bảo vệ (4 số)</label>
-          <input type="password" id="regPin" maxlength="6" placeholder="••••" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 text-sm font-bold tracking-widest text-center focus:outline-none focus:border-sanrio-deepPink">
+          <input type="password" id="regPin" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 font-bold tracking-widest text-center focus:outline-none focus:border-sanrio-deepPink">
         </div>
         <button onclick="handleRegister()" class="w-full touch-btn bg-sanrio-deepPink text-white py-2.5 rounded-2xl font-black text-xs sm:text-sm shadow-md shadow-pink-200 mt-2">
           Xác Nhận Tạo Tài Khoản
@@ -585,15 +591,15 @@
       <div class="space-y-3">
         <div>
           <label class="block text-xs font-bold text-sanrio-dark mb-1">Tên Dịch Vụ (Facebook, Google, TikTok...)</label>
-          <input type="text" id="addIssuer" placeholder="Ví dụ: Facebook" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-sanrio-deepPink">
+          <input type="text" id="addIssuer" placeholder="Ví dụ: Facebook" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 font-bold focus:outline-none focus:border-sanrio-deepPink">
         </div>
         <div>
           <label class="block text-xs font-bold text-sanrio-dark mb-1">Tên Tài Khoản / Email</label>
-          <input type="text" id="addAccount" placeholder="Ví dụ: myemail@gmail.com" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-sanrio-deepPink">
+          <input type="text" id="addAccount" autocapitalize="none" autocorrect="off" placeholder="Ví dụ: myemail@gmail.com" class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 font-bold focus:outline-none focus:border-sanrio-deepPink">
         </div>
         <div>
           <label class="block text-xs font-bold text-sanrio-dark mb-1">Khóa Bí Mật (Secret Key)</label>
-          <input type="text" id="addSecret" placeholder="JBSWY3DPEHPK3PXP..." class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 text-xs sm:text-sm font-mono font-bold uppercase focus:outline-none focus:border-sanrio-deepPink">
+          <input type="text" id="addSecret" autocapitalize="characters" autocorrect="off" placeholder="JBSWY3DPEHPK3PXP..." class="w-full bg-white border-2 border-sanrio-border rounded-2xl px-4 py-2 font-mono font-bold uppercase focus:outline-none focus:border-sanrio-deepPink">
         </div>
 
         <button onclick="saveManualToken()" class="w-full touch-btn bg-gradient-to-r from-sanrio-deepPink to-sanrio-bowRed text-white py-2.5 rounded-2xl font-black text-xs sm:text-sm shadow-md shadow-pink-200 mt-2">
@@ -631,11 +637,11 @@
       <div class="space-y-3">
         <div>
           <label class="block text-xs font-bold text-purple-900 mb-1">Tên khách hàng</label>
-          <input type="text" id="adminNewUsername" placeholder="Nhập tên..." class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs font-bold focus:outline-none focus:border-purple-600">
+          <input type="text" id="adminNewUsername" autocapitalize="none" autocorrect="off" placeholder="Nhập tên..." class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 font-bold focus:outline-none focus:border-purple-600">
         </div>
         <div>
           <label class="block text-xs font-bold text-purple-900 mb-1">Mã PIN khởi tạo</label>
-          <input type="text" id="adminNewUserPin" value="1234" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs font-bold focus:outline-none focus:border-purple-600">
+          <input type="text" id="adminNewUserPin" inputmode="numeric" pattern="[0-9]*" value="1234" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 font-bold focus:outline-none focus:border-purple-600">
         </div>
         <button onclick="adminConfirmCreateUser()" class="w-full touch-btn bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-2xl font-black text-xs shadow-md mt-2">
           Xác Nhận Thêm
@@ -764,6 +770,9 @@
     }
 
     function handleLogin() {
+      // Đóng bàn phím trên điện thoại
+      document.activeElement?.blur();
+
       const usernameInput = document.getElementById('loginUsername').value.trim();
       const pinInput = document.getElementById('loginPin').value.trim();
 
@@ -1391,7 +1400,7 @@
       }
     }
 
-    /* ==================== 13. TIỆN ÍCH HỆ THỐNG ==================== */
+    /* ==================== 13. TIỆN ÍCH HỆ THỐNG & XỬ LÝ BÀN PHÍM ĐA NỀN TẢNG ==================== */
     function showToast(msg, icon = '✨') {
       const toast = document.getElementById('toast');
       document.getElementById('toastMsg').innerText = msg;
@@ -1408,17 +1417,29 @@
       });
     }
 
+    // Nhận diện mở/tắt bàn phím ảo đồng bộ trên TẤT CẢ các thiết bị cảm ứng
+    window.addEventListener('focusin', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+        document.body.classList.add('keyboard-open');
+      }
+    });
+
+    window.addEventListener('focusout', () => {
+      document.body.classList.remove('keyboard-open');
+    });
+
     window.addEventListener('DOMContentLoaded', () => {
       getUsersDb();
       setupViewForSession();
     });
   </script>
 
-  <!-- ==================== 14. HỆ THỐNG PHÒNG THỦ: CHỐNG DEVTOOLS ==================== -->
+  <!-- ==================== 14. HỆ THỐNG PHÒNG THỦ TOÀN DIỆN (KHÔNG BÁO SAI TRÊN MỌI THIẾT BỊ) ==================== -->
   <script>
     (function() {
       'use strict';
 
+      // 1. Tắt console log
       const disableConsole = () => {
         const noop = () => {};
         window.console.log = noop;
@@ -1429,11 +1450,13 @@
       };
       disableConsole();
 
+      // 2. Chặn chuột phải trên máy tính
       document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
         showBustedAlert("Định bấm chuột phải để xem trộm code của bé Mèo hả?! 😼🎀<br><span class='text-sanrio-deepPink'>Chuột phải bị khóa rồi nhaaaa!</span>");
       }, false);
 
+      // 3. Chặn phím tắt mở DevTools & xem mã nguồn (F12, Ctrl+Shift+I/J/C, Ctrl+U, Cmd+Opt+I/J/C/U)
       document.addEventListener('keydown', function(e) {
         if (e.keyCode === 123) {
           e.preventDefault();
@@ -1460,6 +1483,7 @@
         }
       }, false);
 
+      // 4. Bẫy debugger liên tục
       setInterval(function() {
         (function antiDebug(i) {
           if (('' + i / i).length !== 1 || i % 20 === 0) {
@@ -1471,17 +1495,8 @@
         })(0);
       }, 1000);
 
-      const threshold = 160;
-      setInterval(function() {
-        const widthDiff = window.outerWidth - window.innerWidth > threshold;
-        const heightDiff = window.outerHeight - window.innerHeight > threshold;
-        if (widthDiff || heightDiff) {
-          const modal = document.getElementById('bustedModal');
-          if (modal && modal.classList.contains('hidden')) {
-            showBustedAlert("Cửa sổ Inspect mở ra làm chi vậy nè?! 😼🎀<br><span class='text-sanrio-deepPink'>Mau đóng lại đi không bé Mèo giận đấy!</span>");
-          }
-        }
-      }, 1200);
+      // Đã loại bỏ hoàn toàn việc đo kích thước màn hình (threshold resize) 
+      // để loại bỏ 100% tình trạng kích hoạt nhầm khi bàn phím ảo bật lên trên Android/iOS/iPad/Tablet.
 
     })();
   </script>
