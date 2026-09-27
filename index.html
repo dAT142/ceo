@@ -6,13 +6,13 @@
   <title>Hello Kitty 2FA Authenticator</title>
   
   <!-- Tailwind CSS & Google Fonts -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@500;700;800;900&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+  <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+  <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+  <link href="[https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@500;700;800;900&family=Quicksand:wght@600;700;800&display=swap](https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@500;700;800;900&family=Quicksand:wght@600;700;800&display=swap)" rel="stylesheet">
   
   <!-- Thư viện Quét QR Code -->
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <script src="[https://unpkg.com/html5-qrcode](https://unpkg.com/html5-qrcode)" type="text/javascript"></script>
 
   <script>
     tailwind.config = {
@@ -282,12 +282,12 @@
         </div>
       </div>
 
-      <!-- VỊ TRÍ QUẢNG CÁO 2: MÀN HÌNH CHÍNH (NẰM Ở CHỖ TRỐNG GIỮA ACTION BAR VÀ DANH SÁCH MÃ) -->
+      <!-- VỊ TRÍ QUẢNG CÁO 2: MÀN HÌNH CHÍNH (ĐỒNG BỘ TOÀN WEB TỪ FIREBASE) -->
       <div id="clientAdArea" class="hidden w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md border-2 border-sanrio-border">
         <!-- Render Javascript -->
       </div>
 
-      <!-- Danh Sách Mã 2FA (Lưới Responsive Tự Co Giãn Trên Tất Cả Màn Hình) -->
+      <!-- Danh Sách Mã 2FA (Lưới Responsive Tự Co Giãn) -->
       <div id="totpGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <!-- Render bằng Javascript -->
       </div>
@@ -326,28 +326,44 @@
           <h4 id="statLockedUsers" class="text-xl sm:text-2xl font-black font-display text-sanrio-dark mt-0.5">0</h4>
         </div>
         <div class="glass-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border-l-4 border-sanrio-deepPink">
-          <p class="text-[10px] sm:text-[11px] font-extrabold text-pink-600 uppercase tracking-wider">Banner Quảng Cáo</p>
-          <h4 id="statTotalAds" class="text-xl sm:text-2xl font-black font-display text-sanrio-dark mt-0.5">0</h4>
+          <p class="text-[10px] sm:text-[11px] font-extrabold text-pink-600 uppercase tracking-wider">Đồng Bộ Cloud</p>
+          <h4 id="statSyncStatus" class="text-sm font-black font-display text-sanrio-dark mt-1 text-emerald-600">Đang Kiểm Tra...</h4>
         </div>
       </div>
 
-      <!-- KHU VỰC DÀNH CHO ADMIN: QUẢN LÝ QUẢNG CÁO -->
-      <div class="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border-purple-200">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+      <!-- KHU VỰC DÀNH CHO ADMIN: QUẢN LÝ QUẢNG CÁO & ĐỒNG BỘ FIREBASE -->
+      <div class="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border-purple-200 space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <h3 class="text-base sm:text-lg font-black font-display text-purple-900 flex items-center gap-2">
-              <span>🌸 Quản Lý Banner Quảng Cáo</span>
+              <span>🌸 Quản Lý Banner Quảng Cáo (Đồng Bộ Firebase)</span>
               <span class="text-[10px] bg-purple-100 text-purple-700 font-extrabold px-2.5 py-0.5 rounded-full border border-purple-300">Admin</span>
             </h3>
-            <p class="text-xs text-purple-700 font-semibold mt-0.5">Thêm ảnh quảng cáo và đường link để hiển thị trên trang web.</p>
+            <p class="text-xs text-purple-700 font-semibold mt-0.5">
+              Thay đổi ảnh banner và link đích, toàn bộ người dùng trên toàn thế giới sẽ tự động cập nhật ngay lập tức.
+            </p>
           </div>
           <button onclick="openAddAdModal()" class="touch-btn bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs px-3.5 py-2 rounded-2xl shadow-md transition-all self-end sm:self-auto flex items-center gap-1.5">
-            <span>+ Thêm Quảng Cáo Mới</span>
+            <span>+ Cập Nhật Banner Toàn Cầu</span>
           </button>
         </div>
 
-        <!-- Danh sách quảng cáo hiện có -->
-        <div id="adminAdsList" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <!-- Cấu hình Link Firebase Realtime Database -->
+        <div class="bg-purple-50/70 p-3 rounded-2xl border border-purple-200 text-xs">
+          <label class="block font-black text-purple-900 mb-1">🔗 Link Firebase Cloud Sync API (kết thúc bằng /ads.json):</label>
+          <div class="flex gap-2">
+            <input type="url" id="cloudSyncUrlInput" placeholder="[https://your-project-default-rtdb.firebaseio.com/ads.json](https://your-project-default-rtdb.firebaseio.com/ads.json)" class="flex-1 bg-white border border-purple-300 rounded-xl px-3 py-1.5 font-bold text-purple-900 text-xs focus:outline-none focus:border-purple-600">
+            <button onclick="saveCloudSyncUrl()" class="touch-btn bg-purple-700 text-white font-black px-3 py-1.5 rounded-xl text-xs hover:bg-purple-800">
+              Lưu & Kiểm Tra
+            </button>
+          </div>
+          <p class="text-[10px] text-purple-600 mt-1 font-semibold">
+            * Chỉ cần dán 1 lần duy nhất, dữ liệu quảng cáo sẽ được tự động đồng bộ lên Đám Mây của Google.
+          </p>
+        </div>
+
+        <!-- Banner đang kích hoạt hiện tại -->
+        <div id="adminAdsList">
           <!-- Render Javascript -->
         </div>
       </div>
@@ -399,7 +415,7 @@
     </button>
 
     <!-- 2. NÚT LIÊN HỆ ADMIN QUA ZALO -->
-    <a href="https://zalo.me/0567866683" target="_blank" rel="noopener noreferrer" title="Liên hệ Admin qua Zalo (0567.866.683)" class="touch-btn group flex items-center gap-1.5 bg-[#0068FF] hover:bg-blue-600 text-white p-2.5 sm:px-3.5 sm:py-2.5 rounded-full shadow-lg shadow-blue-400/50 border-2 border-white transition-all">
+    <a href="[https://zalo.me/0567866683](https://zalo.me/0567866683)" target="_blank" rel="noopener noreferrer" title="Liên hệ Admin qua Zalo (0567.866.683)" class="touch-btn group flex items-center gap-1.5 bg-[#0068FF] hover:bg-blue-600 text-white p-2.5 sm:px-3.5 sm:py-2.5 rounded-full shadow-lg shadow-blue-400/50 border-2 border-white transition-all">
       <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white flex items-center justify-center text-[#0068FF] font-black text-xs">
         <span class="font-extrabold font-sans">Z</span>
       </div>
@@ -417,7 +433,6 @@
       <span>Thêm mã</span>
     </button>
 
-    <!-- Nút Quét QR tròn to nổi bật ở giữa -->
     <button onclick="openQrScannerModal()" class="touch-btn -mt-6 w-14 h-14 rounded-full bg-gradient-to-tr from-sanrio-deepPink to-sanrio-bowRed text-white flex items-center justify-center shadow-lg shadow-pink-400/60 border-4 border-white">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
     </button>
@@ -432,12 +447,12 @@
 
   <!-- ==================== CÁC MODAL HỆ THỐNG ==================== -->
 
-  <!-- MODAL ADMIN THÊM QUẢNG CÁO MỚI -->
+  <!-- MODAL ADMIN CẬP NHẬT QUẢNG CÁO TOÀN CẦU -->
   <div id="addAdModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
     <div class="w-full max-w-md glass-card rounded-3xl p-5 sm:p-6 shadow-2xl border-purple-300 max-h-[90dvh] overflow-y-auto custom-scroll">
       <div class="flex items-center justify-between mb-3.5">
         <h3 class="text-base sm:text-lg font-black font-display text-purple-950 flex items-center gap-1.5">
-          <span>Thêm Quảng Cáo Mới</span>
+          <span>Cập Nhật Banner Toàn Cầu</span>
           <span>📢</span>
         </h3>
         <button onclick="closeAddAdModal()" class="text-purple-400 hover:text-purple-700 text-xl font-black">&times;</button>
@@ -445,26 +460,26 @@
 
       <div class="space-y-3">
         <div>
-          <label class="block text-xs font-bold text-purple-900 mb-1">Đường dẫn ảnh quảng cáo (Image URL)</label>
-          <input type="url" id="adImageUrlInput" oninput="previewAdImage()" placeholder="https://example.com/banner.jpg" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-purple-600">
+          <label class="block text-xs font-bold text-purple-900 mb-1">Đường dẫn ảnh banner (Image URL)</label>
+          <input type="url" id="adImageUrlInput" oninput="previewAdImage()" placeholder="[https://example.com/banner.jpg](https://example.com/banner.jpg)" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-purple-600">
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-purple-900 mb-1">Đường link khi bấm vào ảnh (Target URL)</label>
-          <input type="url" id="adTargetUrlInput" placeholder="https://facebook.com/..." class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-purple-600">
+          <label class="block text-xs font-bold text-purple-900 mb-1">Đường link khi khách bấm vào ảnh (Target URL)</label>
+          <input type="url" id="adTargetUrlInput" placeholder="[https://zalo.me/](https://zalo.me/)... hoặc link web của bạn" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-purple-600">
         </div>
 
-        <!-- Khung xem trước ảnh quảng cáo -->
+        <!-- Khung xem trước ảnh banner -->
         <div>
-          <p class="text-[11px] font-extrabold text-purple-700 mb-1">Xem trước banner:</p>
-          <div class="w-full h-32 rounded-2xl border-2 border-dashed border-purple-300 overflow-hidden bg-purple-50 flex items-center justify-center">
+          <p class="text-[11px] font-extrabold text-purple-700 mb-1">Xem trước hiển thị:</p>
+          <div class="w-full h-28 sm:h-32 rounded-2xl border-2 border-dashed border-purple-300 overflow-hidden bg-purple-50 flex items-center justify-center">
             <img id="adImagePreview" src="" alt="Xem trước" class="hidden w-full h-full object-cover">
             <span id="adPreviewPlaceholder" class="text-xs font-bold text-purple-400">Chưa có ảnh xem trước</span>
           </div>
         </div>
 
         <button onclick="saveNewAd()" class="w-full touch-btn bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-2xl font-black text-xs sm:text-sm shadow-md mt-2">
-          Lưu & Kích Hoạt Banner
+          Lưu & Đồng Bộ Toàn Cầu 🌸
         </button>
       </div>
     </div>
@@ -508,7 +523,7 @@
         </div>
 
         <div class="relative w-48 h-48 sm:w-56 sm:h-56 mx-auto bg-white p-2 rounded-2xl border-2 border-dashed border-sanrio-border shadow-sm flex items-center justify-center">
-          <img src="https://img.vietqr.io/image/TCB-8888844488-compact2.png?amount=&addInfo=Ung%20ho%20HOTGENZ.COM&accountName=NGUYEN%20DUC%20DAT" 
+          <img src="[https://img.vietqr.io/image/TCB-8888844488-compact2.png?amount=&addInfo=Ung%20ho%20HOTGENZ.COM&accountName=NGUYEN%20DUC%20DAT](https://img.vietqr.io/image/TCB-8888844488-compact2.png?amount=&addInfo=Ung%20ho%20HOTGENZ.COM&accountName=NGUYEN%20DUC%20DAT)" 
                alt="Mã QR Chuyển Khoản Techcombank" 
                class="w-full h-full object-contain rounded-xl">
         </div>
@@ -732,9 +747,22 @@
 
   <!-- ==================== LOGIC JAVASCRIPT HỆ THỐNG ==================== -->
   <script>
-    /* ==================== 1. KHỞI TẠO STATE & DATABASE ==================== */
+    /* ==================== 1. KHỞI TẠO STATE & CƠ SỞ DỮ LIỆU ==================== */
     const DEFAULT_ADMIN_USER = 'admin';
     const DEFAULT_ADMIN_PIN = '8888';
+
+    // 🔗 LINK FIREBASE REST API MẶC ĐỊNH
+    // Bạn có thể dán link Firebase của bạn trực tiếp vào giữa 2 dấu nháy dưới đây nếu muốn gán cứng:
+    const FIREBASE_SYNC_API = ""; 
+
+    const GLOBAL_DEFAULT_ADS = [
+      {
+        id: 'global_ad_1',
+        imageUrl: '[https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900&auto=format&fit=crop&q=80](https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900&auto=format&fit=crop&q=80)',
+        targetUrl: '[https://zalo.me/0567866683](https://zalo.me/0567866683)',
+        active: true
+      }
+    ];
 
     let currentSession = null;
     let activeLoginTab = 'client';
@@ -770,27 +798,74 @@
       localStorage.setItem(`kitty_vault_${username.toLowerCase()}`, JSON.stringify(vault));
     }
 
-    /* ==================== QUẢN LÝ DỮ LIỆU QUẢNG CÁO ==================== */
-    function getAdsDb() {
-      const data = localStorage.getItem('kitty_ads_db');
-      if (!data) {
-        // Tạo mẫu 1 banner quảng cáo ban đầu
-        const sampleAds = [
-          {
-            id: 'ad_1',
-            imageUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900&auto=format&fit=crop&q=80',
-            targetUrl: 'https://zalo.me/0567866683',
-            active: true
-          }
-        ];
-        localStorage.setItem('kitty_ads_db', JSON.stringify(sampleAds));
-        return sampleAds;
-      }
-      return JSON.parse(data);
+    /* ==================== 2. HỆ THỐNG ĐỒNG BỘ ĐÁM MÂY (FIREBASE REALTIME SYNC) ==================== */
+    function getCloudSyncUrl() {
+      return localStorage.getItem('kitty_cloud_sync_url') || FIREBASE_SYNC_API;
     }
 
-    function saveAdsDb(ads) {
-      localStorage.setItem('kitty_ads_db', JSON.stringify(ads));
+    function saveCloudSyncUrl() {
+      let url = document.getElementById('cloudSyncUrlInput').value.trim();
+      if (url && !url.endsWith('.json')) {
+        url = url.replace(/\/+$/, '') + '/ads.json';
+        document.getElementById('cloudSyncUrlInput').value = url;
+      }
+      localStorage.setItem('kitty_cloud_sync_url', url);
+      showToast('Đang kết nối Firebase...', '⏳');
+      syncAdsFromCloud();
+    }
+
+    // Tự động kéo quảng cáo từ Firebase Realtime Database về máy khách hàng
+    async function syncAdsFromCloud() {
+      const cloudUrl = getCloudSyncUrl();
+      const statusLabel = document.getElementById('statSyncStatus');
+
+      if (!cloudUrl) {
+        if (statusLabel) {
+          statusLabel.innerText = 'Chưa Cấu Hình';
+          statusLabel.className = 'text-sm font-black font-display mt-1 text-amber-500';
+        }
+        renderAdsToUi();
+        return;
+      }
+
+      try {
+        const response = await fetch(cloudUrl, { method: 'GET' });
+        if (response.ok) {
+          const remoteAds = await response.json();
+          if (remoteAds) {
+            let adsArray = Array.isArray(remoteAds) ? remoteAds : Object.values(remoteAds);
+            if (adsArray.length > 0) {
+              localStorage.setItem('kitty_ads_db', JSON.stringify(adsArray));
+            }
+          }
+          if (statusLabel) {
+            statusLabel.innerText = 'Đã Kết Nối';
+            statusLabel.className = 'text-sm font-black font-display mt-1 text-emerald-600';
+          }
+        } else {
+          if (statusLabel) {
+            statusLabel.innerText = 'Lỗi Kết Nối';
+            statusLabel.className = 'text-sm font-black font-display mt-1 text-red-500';
+          }
+        }
+      } catch (err) {
+        if (statusLabel) {
+          statusLabel.innerText = 'Offline';
+          statusLabel.className = 'text-sm font-black font-display mt-1 text-gray-400';
+        }
+      }
+      renderAdsToUi();
+    }
+
+    function getAdsDb() {
+      const data = localStorage.getItem('kitty_ads_db');
+      if (!data) return GLOBAL_DEFAULT_ADS;
+      try {
+        const parsed = JSON.parse(data);
+        return Array.isArray(parsed) && parsed.length > 0 ? parsed : GLOBAL_DEFAULT_ADS;
+      } catch (e) {
+        return GLOBAL_DEFAULT_ADS;
+      }
     }
 
     function renderAdsToUi() {
@@ -806,7 +881,6 @@
         return;
       }
 
-      // Lấy quảng cáo đang kích hoạt để render
       const ad = activeAds[0];
 
       const adHtml = `
@@ -826,7 +900,7 @@
       }
     }
 
-    /* ==================== 2. HỆ THỐNG ÂM THANH SYNTH ==================== */
+    /* ==================== 3. HỆ THỐNG ÂM THANH SYNTH ==================== */
     let audioCtx = null;
     function getAudioContext() {
       if (!audioCtx) {
@@ -876,7 +950,7 @@
       } catch (e) {}
     }
 
-    /* ==================== 3. CHỨC NĂNG BẮT QUẢ TANG & ĐĂNG NHẬP ==================== */
+    /* ==================== 4. CHỨC NĂNG BẮT QUẢ TANG & ĐĂNG NHẬP ==================== */
     function switchLoginTab(tab) {
       activeLoginTab = tab;
       const tabClientBtn = document.getElementById('tabClientBtn');
@@ -972,7 +1046,7 @@
       showToast('Đã đăng xuất tài khoản an toàn!', '👋');
     }
 
-    /* ==================== 4. QUẢN LÝ VIEW ==================== */
+    /* ==================== 5. QUẢN LÝ VIEW ==================== */
     function setupViewForSession() {
       const loginView = document.getElementById('loginView');
       const clientView = document.getElementById('clientView');
@@ -982,7 +1056,6 @@
       const roleBadge = document.getElementById('roleBadge');
       const userChangePinBtn = document.getElementById('userChangePinBtn');
 
-      // Luôn cập nhật banner quảng cáo
       renderAdsToUi();
 
       if (!currentSession) {
@@ -1020,10 +1093,9 @@
       }
     }
 
-    /* ==================== 5. ADMIN DASHBOARD & QUẢN LÝ QUẢNG CÁO ==================== */
+    /* ==================== 6. ADMIN DASHBOARD & QUẢN LÝ QUẢNG CÁO ==================== */
     function renderAdminDashboard() {
       const users = getUsersDb();
-      const ads = getAdsDb();
       const tbody = document.getElementById('adminUserTableBody');
       tbody.innerHTML = '';
 
@@ -1069,9 +1141,10 @@
       document.getElementById('statTotalUsers').innerText = users.length;
       document.getElementById('statActiveUsers').innerText = activeCount;
       document.getElementById('statLockedUsers').innerText = lockedCount;
-      document.getElementById('statTotalAds').innerText = ads.length;
+      
+      const cloudInput = document.getElementById('cloudSyncUrlInput');
+      if (cloudInput) cloudInput.value = getCloudSyncUrl();
 
-      // Render danh sách quảng cáo bên dưới
       renderAdminAdsList();
     }
 
@@ -1080,30 +1153,27 @@
       const container = document.getElementById('adminAdsList');
       container.innerHTML = '';
 
-      if (ads.length === 0) {
-        container.innerHTML = `<div class="col-span-full text-center text-xs font-bold text-purple-500 py-4">Chưa có banner quảng cáo nào. Nhấn "+ Thêm Quảng Cáo Mới" để tạo!</div>`;
-        return;
-      }
-
-      ads.forEach((ad, index) => {
+      ads.forEach((ad) => {
         const item = document.createElement('div');
-        item.className = "bg-white p-3 rounded-2xl border-2 border-purple-200 shadow-sm flex flex-col justify-between gap-2.5";
+        item.className = "bg-white p-3.5 rounded-2xl border-2 border-purple-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3";
         item.innerHTML = `
-          <div class="relative w-full h-28 rounded-xl overflow-hidden border border-purple-100">
-            <img src="${escapeHtml(ad.imageUrl)}" alt="Banner" class="w-full h-full object-cover">
-            <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[10px] font-black ${ad.active ? 'bg-emerald-500 text-white' : 'bg-gray-400 text-white'}">
-              ${ad.active ? 'Đang hiện' : 'Đang ẩn'}
-            </span>
+          <div class="flex items-center gap-3 w-full sm:w-auto min-w-0">
+            <img src="${escapeHtml(ad.imageUrl)}" alt="Banner" class="w-20 h-14 sm:w-28 sm:h-16 object-cover rounded-xl border border-purple-100 flex-shrink-0">
+            <div class="min-w-0 flex-1">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${ad.active ? 'bg-emerald-500 text-white' : 'bg-gray-400 text-white'}">
+                ${ad.active ? 'Đang kích hoạt toàn web' : 'Đang tạm ẩn'}
+              </span>
+              <p class="text-xs font-bold text-purple-900 mt-1 truncate">
+                <span class="text-purple-500 font-extrabold">Link đích:</span> <a href="${escapeHtml(ad.targetUrl)}" target="_blank" class="underline hover:text-purple-600">${escapeHtml(ad.targetUrl)}</a>
+              </p>
+            </div>
           </div>
-          <div class="text-[11px] font-bold text-purple-900 truncate">
-            <span class="text-purple-500">🔗 Link:</span> <a href="${escapeHtml(ad.targetUrl)}" target="_blank" class="underline hover:text-purple-600">${escapeHtml(ad.targetUrl)}</a>
-          </div>
-          <div class="flex items-center justify-end gap-2 pt-1 border-t border-purple-100">
-            <button onclick="toggleAdStatus('${ad.id}')" class="px-2.5 py-1 text-xs font-black rounded-xl ${ad.active ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
-              ${ad.active ? 'Tạm Ẩn' : 'Hiện Lại'}
+          <div class="flex items-center justify-end gap-2 w-full sm:w-auto">
+            <button onclick="toggleAdStatus('${ad.id}')" class="px-3 py-1.5 text-xs font-black rounded-xl ${ad.active ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' : 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'}">
+              ${ad.active ? 'Tạm Ẩn' : 'Bật Lại'}
             </button>
-            <button onclick="deleteAd('${ad.id}')" class="px-2.5 py-1 bg-red-100 text-red-600 hover:bg-red-200 text-xs font-black rounded-xl">
-              Xóa
+            <button onclick="openAddAdModal()" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-black rounded-xl">
+              Thay Banner Mới
             </button>
           </div>
         `;
@@ -1112,11 +1182,11 @@
     }
 
     function openAddAdModal() {
-      document.getElementById('adImageUrlInput').value = '';
-      document.getElementById('adTargetUrlInput').value = '';
-      document.getElementById('adImagePreview').src = '';
-      document.getElementById('adImagePreview').classList.add('hidden');
-      document.getElementById('adPreviewPlaceholder').classList.remove('hidden');
+      const ads = getAdsDb();
+      const current = ads[0] || GLOBAL_DEFAULT_ADS[0];
+      document.getElementById('adImageUrlInput').value = current.imageUrl;
+      document.getElementById('adTargetUrlInput').value = current.targetUrl;
+      previewAdImage();
       document.getElementById('addAdModal').classList.remove('hidden');
     }
 
@@ -1140,7 +1210,7 @@
       }
     }
 
-    function saveNewAd() {
+    async function saveNewAd() {
       const imageUrl = document.getElementById('adImageUrlInput').value.trim();
       const targetUrl = document.getElementById('adTargetUrlInput').value.trim();
 
@@ -1149,41 +1219,57 @@
         return;
       }
 
-      const ads = getAdsDb();
-      ads.push({
-        id: 'ad_' + Date.now(),
-        imageUrl: imageUrl,
-        targetUrl: targetUrl,
-        active: true
-      });
+      const updatedAds = [
+        {
+          id: 'global_ad_active',
+          imageUrl: imageUrl,
+          targetUrl: targetUrl,
+          active: true
+        }
+      ];
 
-      saveAdsDb(ads);
+      localStorage.setItem('kitty_ads_db', JSON.stringify(updatedAds));
+
+      // ĐẨY THẲNG LÊN FIREBASE REALTIME DATABASE ĐỂ TẤT CẢ KHÁCH HÀNG CẬP NHẬT TỨC THÌ
+      const cloudUrl = getCloudSyncUrl();
+      if (cloudUrl) {
+        try {
+          await fetch(cloudUrl, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedAds)
+          });
+          showToast('Đã đồng bộ lên Firebase thành công! ☁️', '🎉');
+        } catch (err) {
+          showToast('Đã lưu trên máy nhưng Firebase lỗi kết nối!', '⚠️');
+        }
+      } else {
+        showToast('Đã lưu banner mới thành công! 🌸', '🎉');
+      }
+
       closeAddAdModal();
       renderAdminDashboard();
       renderAdsToUi();
-      showToast('Đã thêm banner quảng cáo thành công! 🌸', '🎉');
     }
 
     function toggleAdStatus(id) {
       const ads = getAdsDb();
-      const ad = ads.find(a => a.id === id);
-      if (ad) {
-        ad.active = !ad.active;
-        saveAdsDb(ads);
-        renderAdminDashboard();
-        renderAdsToUi();
-        showToast(`Đã ${ad.active ? 'kích hoạt' : 'tạm ẩn'} banner!`, '📢');
-      }
-    }
+      if (ads.length > 0) {
+        ads[0].active = !ads[0].active;
+        localStorage.setItem('kitty_ads_db', JSON.stringify(ads));
 
-    function deleteAd(id) {
-      if (confirm('Bạn có chắc muốn xóa banner quảng cáo này?')) {
-        let ads = getAdsDb();
-        ads = ads.filter(a => a.id !== id);
-        saveAdsDb(ads);
+        const cloudUrl = getCloudSyncUrl();
+        if (cloudUrl) {
+          fetch(cloudUrl, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(ads)
+          }).catch(() => {});
+        }
+
         renderAdminDashboard();
         renderAdsToUi();
-        showToast('Đã xóa banner quảng cáo!', '🗑️');
+        showToast(`Đã ${ads[0].active ? 'bật' : 'tạm ẩn'} banner quảng cáo!`, '📢');
       }
     }
 
@@ -1254,7 +1340,7 @@
       showToast(`Đã tạo khách hàng "${username}" thành công!`, '🎉');
     }
 
-    /* ==================== 6. ĐỔI MÃ PIN CHO KHÁCH HÀNG ==================== */
+    /* ==================== 7. ĐỔI MÃ PIN CHO KHÁCH HÀNG ==================== */
     function openUserChangePinModal() {
       document.getElementById('currentPinInput').value = '';
       document.getElementById('newPinInput').value = '';
@@ -1295,7 +1381,7 @@
       showToast('Đã đổi mã PIN mới thành công rực rỡ! 🌸', '🎉');
     }
 
-    /* ==================== 7. ĐĂNG KÝ KHÁCH HÀNG MỚI ==================== */
+    /* ==================== 8. ĐĂNG KÝ KHÁCH HÀNG MỚI ==================== */
     function openRegisterModal() {
       document.getElementById('regUsername').value = '';
       document.getElementById('regPin').value = '';
@@ -1337,7 +1423,7 @@
       showToast(`Tạo thành công! Chào mừng ${username} 🎀`, '✨');
     }
 
-    /* ==================== 8. BỘ SINH MÃ TOTP RFC 6238 ==================== */
+    /* ==================== 9. BỘ SINH MÃ TOTP RFC 6238 ==================== */
     function base32ToBytes(base32) {
       const clean = base32.toUpperCase().replace(/[^A-Z2-7]/g, '');
       const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -1393,7 +1479,7 @@
       }
     }
 
-    /* ==================== 9. RENDER VÀ CẬP NHẬT GIAO DIỆN MÃ 2FA ==================== */
+    /* ==================== 10. RENDER VÀ CẬP NHẬT GIAO DIỆN MÃ 2FA ==================== */
     async function renderTotpList() {
       if (!currentSession || currentSession.role !== 'client') return;
 
@@ -1477,7 +1563,7 @@
       }, 1000);
     }
 
-    /* ==================== 10. QUẢN LÝ THÊM & XÓA KHÓA ==================== */
+    /* ==================== 11. QUẢN LÝ THÊM & XÓA KHÓA ==================== */
     function openManualAddModal() {
       document.getElementById('addIssuer').value = '';
       document.getElementById('addAccount').value = '';
@@ -1521,7 +1607,7 @@
       }
     }
 
-    /* ==================== 11. SAO CHÉP & DONATE MODAL ==================== */
+    /* ==================== 12. SAO CHÉP & DONATE MODAL ==================== */
     function copyOtpCode(code) {
       if (!code || code === '------') return;
       copyToClipboard(code, `Đã sao chép: ${code} 🎀`);
@@ -1562,7 +1648,7 @@
       showToast('Đã xuất file sao lưu an toàn! 🌸', '💾');
     }
 
-    /* ==================== 12. BỘ QUÉT QR CODE ==================== */
+    /* ==================== 13. BỘ QUÉT QR CODE ==================== */
     function openQrScannerModal() {
       document.getElementById('qrScannerModal').classList.remove('hidden');
       if (!html5QrScannerInstance) {
@@ -1646,7 +1732,7 @@
       }
     }
 
-    /* ==================== 13. TIỆN ÍCH HỆ THỐNG & BÀN PHÍM ==================== */
+    /* ==================== 14. TIỆN ÍCH HỆ THỐNG & TỰ ĐỘNG LÀM MỚI QUẢNG CÁO ==================== */
     function showToast(msg, icon = '✨') {
       const toast = document.getElementById('toast');
       document.getElementById('toastMsg').innerText = msg;
@@ -1675,12 +1761,17 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       getUsersDb();
-      getAdsDb();
+      syncAdsFromCloud(); // Đồng bộ quảng cáo toàn cầu ngay khi mở trang
       setupViewForSession();
+
+      // Cứ mỗi 15 giây tự động kiểm tra xem Admin có đổi banner trên Firebase không
+      setInterval(() => {
+        syncAdsFromCloud();
+      }, 15000);
     });
   </script>
 
-  <!-- ==================== 14. HỆ THỐNG PHÒNG THỦ ==================== -->
+  <!-- ==================== 15. HỆ THỐNG PHÒNG THỦ ==================== -->
   <script>
     (function() {
       'use strict';
