@@ -3,20 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Kitty 2FA">
+  <meta name="theme-color" content="#FF85A2">
   <title>Hello Kitty 2FA Authenticator 🎀</title>
 
-  <!-- Google Fonts: Quicksand (Geometric Kawaii) & Nunito (Legible System) -->
+  <!-- Favicon Hello Kitty Bow Data URI -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M30,50 C10,30 10,70 30,50 Z' fill='%23FF2A6D'/><path d='M70,50 C90,30 90,70 70,50 Z' fill='%23FF2A6D'/><circle cx='50' cy='50' r='14' fill='%23E01757'/></svg>">
+
+  <!-- Google Fonts: Quicksand (Kawaii), Nunito (Readable), JetBrains Mono (Codes) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- FontAwesome 6 Icons CDN -->
+  <!-- FontAwesome 6 CDN Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- HTML5 QR Code Scanner Library -->
+  <!-- HTML5 QR Code Scanner CDN -->
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
   <!-- QRCode.js Generator CDN -->
@@ -52,7 +59,7 @@
           boxShadow: {
             'kitty-sm': '0 4px 12px rgba(255, 133, 162, 0.15)',
             'kitty-card': '0 8px 24px -4px rgba(255, 75, 114, 0.12), 0 4px 12px -2px rgba(255, 133, 162, 0.08)',
-            'kitty-glow': '0 12px 32px -4px rgba(255, 42, 109, 0.35)',
+            'kitty-glow': '0 12px 30px -4px rgba(255, 42, 109, 0.35)',
             'dock': '0 -8px 25px rgba(255, 133, 162, 0.18)'
           }
         }
@@ -77,7 +84,7 @@
       padding-bottom: var(--sab);
     }
     .pb-safe-dock {
-      padding-bottom: calc(5rem + var(--sab));
+      padding-bottom: calc(5.2rem + var(--sab));
     }
     @keyframes ribbonWiggle {
       0%, 100% { transform: rotate(0deg) scale(1); }
@@ -101,7 +108,6 @@
     .custom-scroll::-webkit-scrollbar-track {
       background: #FFEAF1;
     }
-    /* Bottom-sheet animation for mobile */
     @media (max-width: 640px) {
       .modal-bottom-sheet {
         align-items: flex-end !important;
@@ -110,7 +116,7 @@
       .modal-bottom-sheet > div {
         border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
-        max-height: 88vh;
+        max-height: 90vh;
       }
     }
   </style>
@@ -118,10 +124,11 @@
 
 <body class="h-full flex flex-col font-sans text-kitty-dark selection:bg-kitty-pink selection:text-white">
 
-  <div id="authScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-kitty-pink-blush/80 backdrop-blur-md overflow-y-auto">
+  <!-- ================= AUTH GATEWAY MODAL ================= -->
+  <div id="authScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-kitty-pink-blush/85 backdrop-blur-md overflow-y-auto">
     <div class="relative bg-white w-full max-w-sm sm:max-w-md rounded-3xl border-3 border-kitty-border shadow-2xl p-6 sm:p-8 text-center my-auto transition-all animate-in fade-in zoom-in-95 duration-200">
       
-      <!-- Custom SVG Hello Kitty Face with Signature Red Bow -->
+      <!-- Sanrio Hello Kitty Face Vector -->
       <div class="relative w-20 h-20 mx-auto mb-3 hover-wiggle cursor-pointer" onclick="playSfx('chime')">
         <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md">
           <polygon points="18,36 12,12 36,22" fill="#FFFFFF" stroke="#3A2E35" stroke-width="4.5" stroke-linejoin="round" />
@@ -139,7 +146,7 @@
           <line x1="92" y1="48" x2="78" y2="51" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
           <line x1="94" y1="58" x2="78" y2="58" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
           <line x1="92" y1="68" x2="78" y2="65" stroke="#3A2E35" stroke-width="3.5" stroke-linecap="round" />
-          <!-- Red Bow -->
+          <!-- Red Ribbon Bow -->
           <g transform="translate(18, 14) scale(0.65)">
             <ellipse cx="14" cy="14" rx="13" ry="9" fill="#FF2A6D" stroke="#3A2E35" stroke-width="4" transform="rotate(-30 14 14)" />
             <ellipse cx="38" cy="14" rx="13" ry="9" fill="#FF2A6D" stroke="#3A2E35" stroke-width="4" transform="rotate(30 38 14)" />
@@ -150,17 +157,18 @@
       </div>
 
       <h1 class="text-xl sm:text-2xl font-black font-kawaii text-kitty-red tracking-tight">Hello Kitty 2FA</h1>
-      <p class="text-xs text-gray-500 font-bold mb-4">Kho mã bảo mật hai bước phong cách Sanrio 🎀</p>
+      <p class="text-xs text-gray-500 font-bold mb-4">Trình quản lý mã xác thực hai bước phong cách Sanrio 🎀</p>
 
-      <!-- Saved Profiles Quick Carousel -->
+      <!-- Quick Profiles Selection Carousel -->
       <div id="quickProfilesContainer" class="hidden text-left mb-4">
         <div class="flex items-center justify-between mb-1.5">
           <span class="text-[11px] font-black uppercase text-gray-400">Chọn hồ sơ nhanh</span>
-          <span class="text-[10px] text-kitty-pink font-bold">Lưu trên thiết bị</span>
+          <span class="text-[10px] text-kitty-pink font-bold">Đã lưu trên máy</span>
         </div>
         <div id="quickProfilesList" class="flex gap-2 overflow-x-auto pb-1.5 custom-scroll"></div>
       </div>
 
+      <!-- Auth Switch Tabs -->
       <div class="flex border-b border-kitty-border mb-4">
         <button id="authTabLogin" onclick="setAuthMode('login')" class="flex-1 py-2 text-xs font-black border-b-2 border-kitty-red text-kitty-red">Đăng Nhập</button>
         <button id="authTabRegister" onclick="setAuthMode('register')" class="flex-1 py-2 text-xs font-bold border-b-2 border-transparent text-gray-400 hover:text-kitty-red">Tạo Mới</button>
@@ -169,7 +177,7 @@
         </button>
       </div>
 
-      <form id="authForm" onsubmit="handleAuthSubmit(event)" class="space-y-3 text-left">
+      <form id="authForm" onsubmit="handleAuthSubmit(event)" class="space-y-3.5 text-left">
         <div>
           <label class="block text-xs font-black text-kitty-dark mb-1">Tên hồ sơ / Biệt danh</label>
           <div class="relative">
@@ -178,8 +186,8 @@
               type="text" 
               id="authUsername" 
               required 
-              placeholder="Kitty, MyMelody, Alex..." 
-              class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-4 py-2.5 text-xs sm:text-sm font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all"
+              placeholder="Kitty, MyMelody, Cinnamoroll..." 
+              class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-4 py-2.5 text-xs sm:text-sm font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all min-h-[44px]"
             >
           </div>
         </div>
@@ -194,7 +202,7 @@
               required 
               placeholder="••••" 
               maxlength="20"
-              class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-10 py-2.5 text-xs sm:text-sm font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all font-mono"
+              class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-10 py-2.5 text-xs sm:text-sm font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none transition-all font-mono min-h-[44px]"
             >
             <button type="button" onclick="togglePinVisibility('authPin', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-kitty-red text-xs p-1">
               <i class="fa-solid fa-eye"></i>
@@ -203,7 +211,7 @@
         </div>
 
         <div id="adminNoticeBox" class="hidden p-2.5 bg-purple-50 rounded-2xl border border-purple-200 text-[11px] text-purple-700 font-bold">
-          <i class="fa-solid fa-shield-halved mr-1"></i> Admin mặc định: <span class="font-extrabold">admin</span> • PIN: <span class="font-extrabold">8888</span>
+          <i class="fa-solid fa-shield-halved mr-1"></i> Admin mặc định: <span class="font-extrabold">admin</span> • PIN: <span class="font-extrabold">bodatvidai</span>
         </div>
 
         <div id="authErrorMsg" class="text-xs font-bold text-kitty-red text-center min-h-[1.2rem]"></div>
@@ -211,7 +219,7 @@
         <button 
           type="submit" 
           id="authSubmitBtn" 
-          class="w-full py-3 bg-gradient-to-r from-kitty-red to-pink-500 hover:from-kitty-red-dark hover:to-pink-600 text-white font-black text-sm rounded-2xl shadow-kitty-glow active:scale-95 transition-all flex items-center justify-center gap-2 min-h-[44px]"
+          class="w-full py-3 bg-gradient-to-r from-kitty-red to-pink-500 hover:from-kitty-red-dark hover:to-pink-600 text-white font-black text-xs sm:text-sm rounded-2xl shadow-kitty-glow active:scale-95 transition-all flex items-center justify-center gap-2 min-h-[44px]"
         >
           <i class="fa-solid fa-heart"></i>
           <span id="authSubmitLabel">Đăng Nhập</span>
@@ -220,10 +228,11 @@
     </div>
   </div>
 
-  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b-2 border-kitty-border shadow-xs">
+  <!-- ================= TOP HEADER BAR ================= -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b-2 border-kitty-border shadow-xs">
     <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between gap-3">
       
-      <!-- Brand & Mascot -->
+      <!-- Logo Branding -->
       <div class="flex items-center space-x-2.5 cursor-pointer select-none" onclick="playSfx('chime')">
         <div class="relative w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0 bg-white border-2 border-kitty-red/40 rounded-full shadow-inner flex items-center justify-center hover-wiggle">
           <span class="text-2xl">🎀</span>
@@ -237,10 +246,10 @@
         </div>
       </div>
 
-      <!-- Controls & Active Profile Area -->
+      <!-- User Info & Action Toolbar -->
       <div class="flex items-center space-x-1.5 sm:space-x-2.5">
         
-        <!-- Active User Pill with Quick Logout -->
+        <!-- Active User Badge -->
         <div id="currentUserPill" class="flex items-center bg-kitty-pink-blush border border-kitty-border rounded-2xl px-2.5 sm:px-3 py-1.5 shadow-xs">
           <span id="userIconSpan" class="text-sm mr-1.5">🌸</span>
           <span id="activeUsername" class="text-xs font-black text-kitty-dark max-w-[80px] sm:max-w-[130px] truncate mr-2">Khách</span>
@@ -254,7 +263,7 @@
           </button>
         </div>
 
-        <!-- Sound FX Toggle Button -->
+        <!-- Sound Toggle -->
         <button 
           id="soundBtn" 
           onclick="toggleSound()" 
@@ -264,7 +273,7 @@
           <i id="soundIcon" class="fa-solid fa-volume-high text-sm"></i>
         </button>
 
-        <!-- Desktop Quick Actions -->
+        <!-- Desktop Action Buttons -->
         <div id="desktopActions" class="hidden md:flex items-center space-x-2">
           <button 
             onclick="openBackupModal()" 
@@ -286,12 +295,12 @@
     </div>
   </header>
 
+  <!-- ================= CLIENT VIEW (USER 2FA VAULT) ================= -->
   <main id="clientView" class="flex-grow max-w-6xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-6 space-y-4 pb-safe-dock md:pb-8">
     
-    <!-- Realtime TOTP Sync & Status Card -->
+    <!-- Real-time TOTP Countdown & Clock Sync Card -->
     <div class="bg-white/95 backdrop-blur-md rounded-3xl p-4 sm:p-5 border-2 border-kitty-border shadow-kitty-card flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3.5 w-full sm:w-auto">
-        
         <!-- Live Countdown SVG Ring -->
         <div class="relative w-12 h-12 flex-shrink-0 flex items-center justify-center">
           <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
@@ -329,7 +338,7 @@
         <button 
           onclick="addSampleToken()" 
           class="text-xs font-black text-kitty-red bg-kitty-pink-blush hover:bg-kitty-pink-light border border-kitty-border px-3.5 py-2.5 rounded-2xl transition-all flex items-center gap-1.5 active:scale-95 shadow-xs min-h-[40px]"
-          title="Tạo mã thử nghiệm"
+          title="Tạo mã thử nghiệm nhanh"
         >
           <i class="fa-solid fa-wand-magic-sparkles text-kitty-yellow"></i>
           <span>Thêm mẫu thử</span>
@@ -341,7 +350,7 @@
       </div>
     </div>
 
-    <!-- Search Toolbar & Keyboard Shortcut Prompt -->
+    <!-- Search Toolbar -->
     <div class="flex items-center gap-2.5">
       <div class="relative flex-grow">
         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-kitty-pink text-sm"></i>
@@ -371,7 +380,7 @@
       </button>
     </div>
 
-    <!-- 2FA Token Cards Responsive Grid (1 col mobile, 2 col tablet, 3 col desktop) -->
+    <!-- 2FA Token Cards Grid (Mobile 1 col, Tablet 2 col, Desktop 3 col) -->
     <div id="tokensGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4"></div>
 
     <!-- Empty State -->
@@ -379,7 +388,7 @@
       <div class="w-20 h-20 bg-kitty-pink-blush rounded-full flex items-center justify-center text-4xl mb-3 shadow-inner hover-wiggle">🎀</div>
       <h3 class="text-base sm:text-lg font-black font-kawaii text-kitty-dark mb-1">Chưa có mã xác thực nào!</h3>
       <p class="text-xs sm:text-sm text-gray-500 max-w-sm mb-5 font-semibold">
-        Bắt đầu bảo vệ tài khoản bằng cách quét mã QR hoặc nhập khóa thủ công.
+        Bảo vệ tài khoản ngay bằng cách quét mã QR hoặc nhập khóa bí mật thủ công.
       </p>
       <div class="flex flex-wrap gap-2.5 justify-center">
         <button 
@@ -398,6 +407,7 @@
     </div>
   </main>
 
+  <!-- ================= ADMIN DASHBOARD VIEW ================= -->
   <main id="adminView" class="hidden flex-grow max-w-6xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6 pb-20 md:pb-8">
     
     <!-- Admin Hero Banner -->
@@ -412,8 +422,8 @@
           </div>
           <h2 class="text-xl sm:text-2xl font-black font-kawaii tracking-tight">Bảng Điều Khiển Quản Lý Hồ Sơ</h2>
           <p class="text-xs text-purple-200 font-medium max-w-xl mt-1 leading-relaxed">
-            Xem số lượng tài khoản, khóa hoặc mở khóa quyền truy cập, đặt lại mã PIN.
-            <span class="text-pink-300 font-bold">Kiến trúc Zero-Knowledge: Khóa bí mật và mã TOTP của người dùng được mã hóa riêng trên máy và không thể xem bởi tài khoản quản trị.</span>
+            Xem số lượng người dùng, trạng thái kích hoạt, khóa/mở khóa hồ sơ hoặc đặt lại mã PIN.
+            <span class="text-pink-300 font-bold">Kiến trúc Zero-Knowledge: Khóa bí mật và mã TOTP của người dùng được mã hóa riêng trên trình duyệt và không thể xem bởi tài khoản quản trị.</span>
           </p>
         </div>
 
@@ -426,7 +436,7 @@
       </div>
     </div>
 
-    <!-- Admin Metric Cards (Fully responsive 2 col to 4 col) -->
+    <!-- Admin Metric Cards -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
       <div class="bg-white rounded-3xl p-4 sm:p-5 border-2 border-kitty-border shadow-kitty-card flex items-center gap-3">
         <div class="w-12 h-12 rounded-2xl bg-pink-100 text-kitty-red flex items-center justify-center text-xl flex-shrink-0">
@@ -487,7 +497,7 @@
             id="adminSearchUser" 
             oninput="renderAdminUserList()" 
             placeholder="Tìm theo tên..." 
-            class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-3 py-2 text-xs font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:outline-none"
+            class="w-full bg-pink-50/50 rounded-2xl pl-9 pr-3 py-2 text-xs font-bold text-kitty-dark border border-kitty-border focus:border-kitty-red focus:outline-none min-h-[40px]"
           >
         </div>
       </div>
@@ -513,6 +523,7 @@
     </div>
   </main>
 
+  <!-- ================= MOBILE BOTTOM NAVIGATION DOCK ================= -->
   <nav id="mobileDock" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t-2 border-kitty-border shadow-dock px-3 pt-1.5 pb-2">
     <div class="max-w-md mx-auto flex items-center justify-around">
       <button 
@@ -552,10 +563,11 @@
     </div>
   </nav>
 
+  <!-- ================= MODAL: ADD / EDIT 2FA TOKEN ================= -->
   <div id="addModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm modal-bottom-sheet">
     <div class="relative bg-white w-full max-w-lg rounded-3xl border-3 border-kitty-border shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
       
-      <!-- Modal Header -->
+      <!-- Header -->
       <div class="bg-gradient-to-r from-kitty-pink-light via-pink-100 to-kitty-pink-blush px-5 py-3.5 border-b border-kitty-border flex items-center justify-between">
         <div class="flex items-center space-x-2">
           <span class="text-xl">🎀</span>
@@ -639,7 +651,7 @@
 
         <!-- QR Scanner Tab Content -->
         <div id="tabQrContent" class="hidden space-y-3.5">
-          <p class="text-xs text-center font-bold text-gray-600">Quét trực tiếp qua Camera hoặc chọn ảnh chụp mã QR từ máy</p>
+          <p class="text-xs text-center font-bold text-gray-600">Quét camera trực tiếp hoặc chọn ảnh chụp mã QR từ máy</p>
           
           <div class="relative w-full rounded-2xl overflow-hidden border-2 border-kitty-border bg-black aspect-square max-w-[280px] mx-auto flex items-center justify-center shadow-inner">
             <div id="cameraViewport" class="w-full h-full"></div>
@@ -669,6 +681,7 @@
     </div>
   </div>
 
+  <!-- ================= MODAL: VIEW SECRET KEY & RECONSTRUCTED QR ================= -->
   <div id="viewSecretModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
     <div class="relative bg-white w-full max-w-sm rounded-3xl border-3 border-kitty-border shadow-2xl p-5 text-center animate-in fade-in zoom-in-95 duration-200">
       <div class="w-12 h-12 bg-kitty-pink-light rounded-full flex items-center justify-center mx-auto text-2xl mb-2 hover-wiggle">🎀</div>
@@ -693,7 +706,7 @@
     </div>
   </div>
 
-  <!-- Backup Modal -->
+  <!-- ================= MODAL: BACKUP (EXPORT / IMPORT JSON) ================= -->
   <div id="backupModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm modal-bottom-sheet">
     <div class="relative bg-white w-full max-w-md rounded-3xl border-3 border-kitty-border shadow-2xl p-5 sm:p-6 animate-in fade-in zoom-in-95 duration-200">
       <div class="flex items-center justify-between border-b border-kitty-border pb-3 mb-4">
@@ -731,7 +744,7 @@
     </div>
   </div>
 
-  <!-- Admin: Create User Modal -->
+  <!-- ================= MODAL: ADMIN CREATE USER ================= -->
   <div id="createUserModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
     <div class="relative bg-white w-full max-w-sm rounded-3xl border-3 border-kitty-border shadow-2xl p-5 sm:p-6 animate-in fade-in zoom-in-95 duration-200">
       <div class="flex items-center justify-between border-b border-kitty-border pb-3 mb-4">
@@ -752,7 +765,7 @@
             id="adminNewUserName" 
             required 
             placeholder="Kuromi, Cinnamoroll..." 
-            class="w-full bg-pink-50/50 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none"
+            class="w-full bg-pink-50/50 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none min-h-[40px]"
           >
         </div>
         <div>
@@ -763,7 +776,7 @@
             required 
             placeholder="1234" 
             maxlength="20"
-            class="w-full bg-pink-50/50 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none font-mono"
+            class="w-full bg-pink-50/50 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold border border-kitty-border focus:border-kitty-red focus:bg-white focus:outline-none font-mono min-h-[40px]"
           >
         </div>
 
@@ -775,7 +788,7 @@
     </div>
   </div>
 
-  <!-- Custom Kawaii Confirm Dialog (Zero alert/confirm) -->
+  <!-- ================= CUSTOM CONFIRM DIALOG ================= -->
   <div id="confirmModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
     <div class="relative bg-white w-full max-w-xs rounded-3xl border-3 border-kitty-border shadow-2xl p-5 text-center animate-in fade-in zoom-in-95 duration-200">
       <div id="confirmIconWrapper" class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto text-kitty-red text-xl mb-3">
@@ -790,7 +803,7 @@
     </div>
   </div>
 
-  <!-- Kawaii Toast Notification Box -->
+  <!-- ================= TOAST NOTIFICATION BOX ================= -->
   <div id="toastBox" class="fixed bottom-20 md:bottom-6 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 translate-y-6">
     <div class="bg-kitty-dark text-white px-4 py-2.5 rounded-full shadow-2xl border-2 border-kitty-red flex items-center space-x-2.5">
       <span class="text-base">🎀</span>
@@ -800,7 +813,9 @@
 
   <textarea id="hiddenCopyHelper" class="fixed -top-96 left-0 opacity-0 pointer-events-none"></textarea>
 
+  <!-- ================= JAVASCRIPT CORE ================= -->
   <script>
+    // --- 1. Audio Synthesizer (Zero External Dependencies) ---
     let audioCtx = null;
     let soundEnabled = true;
 
@@ -847,7 +862,6 @@
           osc.start(now);
           osc.stop(now + 0.09);
         } else if (type === 'chime') {
-          // Playful ascending kawaii Sanrio chord
           [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -866,6 +880,7 @@
       }
     }
 
+    // --- 2. State & Storage Architecture ---
     const PROFILES_STORAGE_KEY = 'kitty_v3_profiles';
     const ACTIVE_USER_SESSION_KEY = 'kitty_v3_session';
 
@@ -884,13 +899,13 @@
         allProfiles = [];
       }
 
-      // Guarantee root admin profile
+      // Pre-seed Root Admin Account
       let adminAccount = allProfiles.find(p => p.role === 'admin' || p.username.toLowerCase() === 'admin');
       if (!adminAccount) {
         adminAccount = {
           id: 'admin_sys_root',
-          username: 'admin',
-          pin: '8888',
+          username: 'hotgenz',
+          pin: '2209',
           role: 'admin',
           status: 'active',
           createdAt: Date.now() - 86400000 * 30
@@ -1062,7 +1077,7 @@
         allProfiles.push(newProfile);
         saveSystemProfiles();
 
-        // Welcome starter token
+        // Sample token to welcome user
         const starterTokens = [{
           id: 'starter_' + Date.now(),
           issuer: 'Google',
@@ -1154,6 +1169,7 @@
       showToast('Đã đăng xuất hồ sơ an toàn');
     }
 
+    // --- 3. RFC 6238 TOTP Engine & Web Crypto API ---
     const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
     function base32Decode(str) {
@@ -1203,7 +1219,7 @@
         const otp = binary % Math.pow(10, digits);
         return otp.toString().padStart(digits, '0');
       } catch (e) {
-        console.error('TOTP generation failure:', e);
+        console.error('TOTP error:', e);
         return '------';
       }
     }
@@ -1244,6 +1260,7 @@
       return { bg: 'bg-kitty-pink-light text-kitty-red', icon: 'fa-solid fa-shield-cat' };
     }
 
+    // --- 4. Client View Render & Interaction ---
     function renderTokenCards() {
       const container = document.getElementById('tokensGrid');
       const emptyState = document.getElementById('emptyState');
@@ -1289,7 +1306,7 @@
                 </div>
               </div>
 
-              <!-- Action icons -->
+              <!-- Card Action Buttons -->
               <div class="flex items-center space-x-1 flex-shrink-0">
                 <button onclick="openViewSecretModal('${t.id}')" class="w-8 h-8 rounded-xl text-gray-400 hover:text-kitty-red hover:bg-kitty-pink-blush flex items-center justify-center transition-all" title="Xem QR & Khóa bí mật">
                   <i class="fa-solid fa-qrcode text-xs"></i>
@@ -1303,7 +1320,7 @@
               </div>
             </div>
 
-            <!-- One-tap full width copy box -->
+            <!-- One-Tap Full Width Copy Box -->
             <div onclick="copyTokenCode('${t.id}')" class="cursor-pointer bg-kitty-pink-pastel/90 hover:bg-kitty-pink-light/75 border border-kitty-border rounded-2xl p-3 sm:p-3.5 flex items-center justify-between transition-all group/code active:scale-[0.98]" title="Chạm để sao chép">
               <div class="flex flex-col">
                 <span class="text-[10px] uppercase font-black text-kitty-pink tracking-wider flex items-center gap-1">
@@ -1318,7 +1335,7 @@
               </div>
             </div>
 
-            <!-- Footer indicator -->
+            <!-- Card Bottom Bar -->
             <div class="mt-2.5 flex items-center justify-between text-[11px] text-gray-400 font-bold pt-1">
               <span class="flex items-center gap-1.5 font-mono">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -1378,9 +1395,9 @@
       const digits = code.replace(/\s/g, '');
       copyTextToClipboard(digits);
       
-      // Haptic feedback for smartphones
+      // Haptic Vibration for Mobile Devices
       if (navigator.vibrate) {
-        try { navigator.vibrate(30); } catch (e) {}
+        try { navigator.vibrate(35); } catch (e) {}
       }
 
       playSfx('pop');
@@ -1464,6 +1481,7 @@
       document.getElementById('inputIssuer').value = name;
     }
 
+    // --- 5. QR Code Scanning & Decoding Engine ---
     let html5QrScanner = null;
     let cameraActive = false;
 
@@ -1531,6 +1549,13 @@
     function startCameraScanner() {
       const msg = document.getElementById('scanStatusMsg');
       const btn = document.getElementById('cameraBtnText');
+
+      if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+        msg.innerText = 'Trình duyệt yêu cầu HTTPS để mở Camera. Hãy tải ảnh QR lên thay thế!';
+        showToast('Cần kết nối HTTPS để mở Camera');
+        return;
+      }
+
       msg.innerText = 'Đang khởi động camera...';
 
       if (!html5QrScanner) html5QrScanner = new Html5Qrcode('cameraViewport');
@@ -1742,6 +1767,7 @@
       selectedSecretToken = null;
     }
 
+    // --- 6. Admin Dashboard Engine (Zero-Knowledge) ---
     function renderAdminDashboard() {
       loadSystemProfiles();
       const clients = allProfiles.filter(p => p.role !== 'admin');
@@ -1776,7 +1802,7 @@
         return;
       }
 
-      // Desktop Table Rows
+      // Desktop View Table
       tableBody.innerHTML = clients.map(user => {
         const vault = loadVaultForUser(user.id);
         const isLocked = user.status === 'locked';
@@ -1975,6 +2001,7 @@
       showToast(`Đã tạo hồ sơ cho ${uname} 🌸`);
     }
 
+    // --- 7. Backup & Migration (Export / Import JSON) ---
     function openBackupModal() {
       document.getElementById('backupModal').classList.remove('hidden');
       playSfx('pop');
@@ -2047,6 +2074,7 @@
       e.target.value = '';
     }
 
+    // --- 8. Modal Confirm Dialog (Kawaii Theme) ---
     function openKawaiiConfirmModal(title, msg, onOk) {
       const modal = document.getElementById('confirmModal');
       const titleEl = document.getElementById('confirmDialogTitle');
@@ -2083,9 +2111,8 @@
       return div.innerHTML;
     }
 
-    // Global keyboard shortcuts (Desktop convenience)
+    // Desktop Global Shortcuts
     window.addEventListener('keydown', (e) => {
-      // Escape closes open modals
       if (e.key === 'Escape') {
         closeAddModal();
         closeViewSecretModal();
@@ -2093,7 +2120,6 @@
         closeCreateUserModal();
         document.getElementById('confirmModal').classList.add('hidden');
       }
-      // Ctrl/Cmd + K focuses search bar
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         const searchInput = document.getElementById('tokenSearchInput');
