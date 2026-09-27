@@ -6,13 +6,13 @@
   <title>Hello Kitty 2FA Authenticator</title>
   
   <!-- Tailwind CSS & Google Fonts -->
-  <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-  <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-  <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-  <link href="[https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@500;700;800;900&family=Quicksand:wght@600;700;800&display=swap](https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@500;700;800;900&family=Quicksand:wght@600;700;800&display=swap)" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@500;700;800;900&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Thư viện Quét QR Code -->
-  <script src="[https://unpkg.com/html5-qrcode](https://unpkg.com/html5-qrcode)" type="text/javascript"></script>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
   <script>
     tailwind.config = {
@@ -352,7 +352,7 @@
         <div class="bg-purple-50/70 p-3 rounded-2xl border border-purple-200 text-xs">
           <label class="block font-black text-purple-900 mb-1">🔗 Link Firebase Cloud Sync API (kết thúc bằng /ads.json):</label>
           <div class="flex gap-2">
-            <input type="url" id="cloudSyncUrlInput" placeholder="[https://your-project-default-rtdb.firebaseio.com/ads.json](https://your-project-default-rtdb.firebaseio.com/ads.json)" class="flex-1 bg-white border border-purple-300 rounded-xl px-3 py-1.5 font-bold text-purple-900 text-xs focus:outline-none focus:border-purple-600">
+            <input type="url" id="cloudSyncUrlInput" placeholder="https://your-project-default-rtdb.firebaseio.com/ads.json" class="flex-1 bg-white border border-purple-300 rounded-xl px-3 py-1.5 font-bold text-purple-900 text-xs focus:outline-none focus:border-purple-600">
             <button onclick="saveCloudSyncUrl()" class="touch-btn bg-purple-700 text-white font-black px-3 py-1.5 rounded-xl text-xs hover:bg-purple-800">
               Lưu & Kiểm Tra
             </button>
@@ -415,7 +415,7 @@
     </button>
 
     <!-- 2. NÚT LIÊN HỆ ADMIN QUA ZALO -->
-    <a href="[https://zalo.me/0567866683](https://zalo.me/0567866683)" target="_blank" rel="noopener noreferrer" title="Liên hệ Admin qua Zalo (0567.866.683)" class="touch-btn group flex items-center gap-1.5 bg-[#0068FF] hover:bg-blue-600 text-white p-2.5 sm:px-3.5 sm:py-2.5 rounded-full shadow-lg shadow-blue-400/50 border-2 border-white transition-all">
+    <a href="https://zalo.me/0567866683" target="_blank" rel="noopener noreferrer" title="Liên hệ Admin qua Zalo (0567.866.683)" class="touch-btn group flex items-center gap-1.5 bg-[#0068FF] hover:bg-blue-600 text-white p-2.5 sm:px-3.5 sm:py-2.5 rounded-full shadow-lg shadow-blue-400/50 border-2 border-white transition-all">
       <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white flex items-center justify-center text-[#0068FF] font-black text-xs">
         <span class="font-extrabold font-sans">Z</span>
       </div>
@@ -433,6 +433,7 @@
       <span>Thêm mã</span>
     </button>
 
+    <!-- Nút Quét QR tròn to nổi bật ở giữa -->
     <button onclick="openQrScannerModal()" class="touch-btn -mt-6 w-14 h-14 rounded-full bg-gradient-to-tr from-sanrio-deepPink to-sanrio-bowRed text-white flex items-center justify-center shadow-lg shadow-pink-400/60 border-4 border-white">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
     </button>
@@ -461,12 +462,12 @@
       <div class="space-y-3">
         <div>
           <label class="block text-xs font-bold text-purple-900 mb-1">Đường dẫn ảnh banner (Image URL)</label>
-          <input type="url" id="adImageUrlInput" oninput="previewAdImage()" placeholder="[https://example.com/banner.jpg](https://example.com/banner.jpg)" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-purple-600">
+          <input type="url" id="adImageUrlInput" oninput="previewAdImage()" placeholder="https://example.com/banner.jpg" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-purple-600">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-purple-900 mb-1">Đường link khi khách bấm vào ảnh (Target URL)</label>
-          <input type="url" id="adTargetUrlInput" placeholder="[https://zalo.me/](https://zalo.me/)... hoặc link web của bạn" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-purple-600">
+          <input type="url" id="adTargetUrlInput" placeholder="https://zalo.me/... hoặc link web của bạn" class="w-full bg-white border-2 border-purple-200 rounded-2xl px-4 py-2 text-xs sm:text-sm font-bold focus:outline-none focus:border-purple-600">
         </div>
 
         <!-- Khung xem trước ảnh banner -->
@@ -523,7 +524,7 @@
         </div>
 
         <div class="relative w-48 h-48 sm:w-56 sm:h-56 mx-auto bg-white p-2 rounded-2xl border-2 border-dashed border-sanrio-border shadow-sm flex items-center justify-center">
-          <img src="[https://img.vietqr.io/image/TCB-8888844488-compact2.png?amount=&addInfo=Ung%20ho%20HOTGENZ.COM&accountName=NGUYEN%20DUC%20DAT](https://img.vietqr.io/image/TCB-8888844488-compact2.png?amount=&addInfo=Ung%20ho%20HOTGENZ.COM&accountName=NGUYEN%20DUC%20DAT)" 
+          <img src="https://img.vietqr.io/image/TCB-8888844488-compact2.png?amount=&addInfo=Ung%20ho%20HOTGENZ.COM&accountName=NGUYEN%20DUC%20DAT" 
                alt="Mã QR Chuyển Khoản Techcombank" 
                class="w-full h-full object-contain rounded-xl">
         </div>
@@ -752,14 +753,14 @@
     const DEFAULT_ADMIN_PIN = '8888';
 
     // 🔗 LINK FIREBASE REST API MẶC ĐỊNH
-    // Bạn có thể dán link Firebase của bạn trực tiếp vào giữa 2 dấu nháy dưới đây nếu muốn gán cứng:
+    // Bạn có thể dán link Firebase của bạn trực tiếp vào giữa 2 dấu nháy dưới đây:
     const FIREBASE_SYNC_API = ""; 
 
     const GLOBAL_DEFAULT_ADS = [
       {
         id: 'global_ad_1',
-        imageUrl: '[https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900&auto=format&fit=crop&q=80](https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900&auto=format&fit=crop&q=80)',
-        targetUrl: '[https://zalo.me/0567866683](https://zalo.me/0567866683)',
+        imageUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900&auto=format&fit=crop&q=80',
+        targetUrl: 'https://zalo.me/0567866683',
         active: true
       }
     ];
@@ -1096,6 +1097,7 @@
     /* ==================== 6. ADMIN DASHBOARD & QUẢN LÝ QUẢNG CÁO ==================== */
     function renderAdminDashboard() {
       const users = getUsersDb();
+      const ads = getAdsDb();
       const tbody = document.getElementById('adminUserTableBody');
       tbody.innerHTML = '';
 
